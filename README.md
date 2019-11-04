@@ -1,5 +1,3 @@
-Thanks for downloading the faucet script. The script may be update in future. So you may check it's update version at http://itcollegeall.blogspot.com .
-
 Installation:->
 
 
