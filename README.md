@@ -30,6 +30,10 @@ Features:->
     => Modern Antibot with ( On / Off ).
 
 
+Demo:->
+
+A demo is avaible: http://btcearn.ueuo.com
+
 Help:->
 
 
