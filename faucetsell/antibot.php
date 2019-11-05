@@ -34,12 +34,12 @@ $color3 = substr($arrX[$randIndex[2]], 0, 6);
 $capcode3 = substr($arrX[$randIndex[2]], 6, 4);
 $color4 = substr($arrX[$randIndex[3]], 0, 6);
 $capcode4 = substr($arrX[$randIndex[3]], 6, 4);
-$antibot1 = "<div id='myDIV".$capcode1."' onclick='insertTextInInputValue(".$capcode1.");' style='cursor: pointer;display: inline-block;width: 140px;height:10;background-color: #" . $color1 . "'>&nbsp;</div>";
-$antibot2 = "<div id='myDIV".$capcode2."' onclick='insertTextInInputValue(".$capcode2.");' style='cursor: pointer;display: inline-block;width: 140px;height:10;background-color: #" . $color2 . "'>&nbsp;</div>";
-$antibot3 = "<div id='myDIV".$capcode3."' onclick='insertTextInInputValue(".$capcode3.");' style='cursor: pointer;display: inline-block;width: 140px;height:10;background-color: #" . $color3 . "'>&nbsp;</div>";
-$antibot4 = "<div id='myDIV".$capcode4."' onclick='insertTextInInputValue(".$capcode4.");' style='cursor: pointer;display: inline-block;width: 140px;height:10;background-color: #" . $color4 . "'>&nbsp;</div>";
+$antibot1 = "<div id='myDIV".$capcode1."' onclick='insertTextInInputValue(".$capcode1.");' style='cursor: pointer;display: inline;width: 140px;height:10;background-color: #" . $color1 . "'>&nbsp;</div>";
+$antibot2 = "<div id='myDIV".$capcode2."' onclick='insertTextInInputValue(".$capcode2.");' style='cursor: pointer;display: inline;width: 140px;height:10;background-color: #" . $color2 . "'>&nbsp;</div>";
+$antibot3 = "<div id='myDIV".$capcode3."' onclick='insertTextInInputValue(".$capcode3.");' style='cursor: pointer;display: inline;width: 140px;height:10;background-color: #" . $color3 . "'>&nbsp;</div>";
+$antibot4 = "<div id='myDIV".$capcode4."' onclick='insertTextInInputValue(".$capcode4.");' style='cursor: pointer;display: inline;width: 140px;height:10;background-color: #" . $color4 . "'>&nbsp;</div>";
 }elseif ($randc == "1") {
-$showantibot = "<div style='display: inline-block;width: 20px;background-color: #" . $random_keys_two[0] . "'>&nbsp;</div> , <div style='display: inline-block;width: 20px;background-color: #" . $random_keys_two[1] . "'>&nbsp;</div> , <div style='display: inline-block;width: 20px;background-color: #" . $random_keys_two[2] . "'>&nbsp;</div> , <div style='display: inline-block;width: 20px;background-color: #" . $random_keys_two[3] . "'>&nbsp;</div>";
+$showantibot = "<div style='display: inline;width: 20px;background-color: #" . $random_keys_two[0] . "'>&nbsp;</div> , <div style='display: inline;width: 20px;background-color: #" . $random_keys_two[1] . "'>&nbsp;</div> , <div style='display: inline;width: 20px;background-color: #" . $random_keys_two[2] . "'>&nbsp;</div> , <div style='display: inline;width: 20px;background-color: #" . $random_keys_two[3] . "'>&nbsp;</div>";
 $arrX = array($universe[$random_keys_two[0]].$capcode1, $universe[$random_keys_two[1]].$capcode2, $universe[$random_keys_two[2]].$capcode3, $universe[$random_keys_two[3]].$capcode4);
 $randIndex = array_rand($arrX, 4);
 shuffle($randIndex);
@@ -51,10 +51,10 @@ $capcode3 = preg_replace('/[^0-9]/', '', $arrX[$randIndex[2]]);
 $color3 = ucfirst(preg_replace('/[^a-zA-Z]+/', '', $arrX[$randIndex[2]]));
 $capcode4 = preg_replace('/[^0-9]/', '', $arrX[$randIndex[3]]);
 $color4 = ucfirst(preg_replace('/[^a-zA-Z]+/', '', $arrX[$randIndex[3]]));
-$antibot1 = "<div id='myDIV".$capcode1."' onclick='insertTextInInputValue(".$capcode1.");' style='cursor: pointer;display: inline-block;width: 1px;height:10;'>" . $color1 . "</div>";
-$antibot2 = "<div id='myDIV".$capcode2."' onclick='insertTextInInputValue(".$capcode2.");' style='cursor: pointer;display: inline-block;width: 1px;height:10;'>" . $color2 . "</div>";
-$antibot3 = "<div id='myDIV".$capcode3."' onclick='insertTextInInputValue(".$capcode3.");' style='cursor: pointer;display: inline-block;width: 1px;height:10;'>" . $color3 . "</div>";
-$antibot4 = "<div id='myDIV".$capcode4."' onclick='insertTextInInputValue(".$capcode4.");' style='cursor: pointer;display: inline-block;width: 1px;height:10;'>" . $color4 . "</div>";
+$antibot1 = "<div id='myDIV".$capcode1."' onclick='insertTextInInputValue(".$capcode1.");' style='cursor: pointer;display: inline;width: 1px;height:10;'>" . $color1 . "</div>";
+$antibot2 = "<div id='myDIV".$capcode2."' onclick='insertTextInInputValue(".$capcode2.");' style='cursor: pointer;display: inline;width: 1px;height:10;'>" . $color2 . "</div>";
+$antibot3 = "<div id='myDIV".$capcode3."' onclick='insertTextInInputValue(".$capcode3.");' style='cursor: pointer;display: inline;width: 1px;height:10;'>" . $color3 . "</div>";
+$antibot4 = "<div id='myDIV".$capcode4."' onclick='insertTextInInputValue(".$capcode4.");' style='cursor: pointer;display: inline;width: 1px;height:10;'>" . $color4 . "</div>";
 }else{
 $showantibot = $random_keys_two[0] . " , " . $random_keys_two[1] . " , " . $random_keys_two[2] . " , " . $random_keys_two[3];
 $arrX = array($universe[$random_keys_two[0]].$capcode1, $universe[$random_keys_two[1]].$capcode2, $universe[$random_keys_two[2]].$capcode3, $universe[$random_keys_two[3]].$capcode4);
@@ -68,10 +68,10 @@ $capcode3 = preg_replace('/[^0-9]/', '', $arrX[$randIndex[2]]);
 $color3 = preg_replace('/[^a-zA-Z]+/', '', $arrX[$randIndex[2]]);
 $capcode4 = preg_replace('/[^0-9]/', '', $arrX[$randIndex[3]]);
 $color4 = preg_replace('/[^a-zA-Z]+/', '', $arrX[$randIndex[3]]);
-$antibot1 = "<div id='myDIV".$capcode1."' onclick='insertTextInInputValue(".$capcode1.");' style='cursor: pointer;display: inline-block;width: auto;height:10;'>" . $color1 . "</div>";
-$antibot2 = "<div id='myDIV".$capcode2."' onclick='insertTextInInputValue(".$capcode2.");' style='cursor: pointer;display: inline-block;width: auto;height:10;'>" . $color2 . "</div>";
-$antibot3 = "<div id='myDIV".$capcode3."' onclick='insertTextInInputValue(".$capcode3.");' style='cursor: pointer;display: inline-block;width: auto;height:10;'>" . $color3 . "</div>";
-$antibot4 = "<div id='myDIV".$capcode4."' onclick='insertTextInInputValue(".$capcode4.");' style='cursor: pointer;display: inline-block;width: auto;height:10;'>" . $color4 . "</div>";
+$antibot1 = "<div id='myDIV".$capcode1."' onclick='insertTextInInputValue(".$capcode1.");' style='cursor: pointer;display: inline;width: auto;height:10;'>" . $color1 . "</div>";
+$antibot2 = "<div id='myDIV".$capcode2."' onclick='insertTextInInputValue(".$capcode2.");' style='cursor: pointer;display: inline;width: auto;height:10;'>" . $color2 . "</div>";
+$antibot3 = "<div id='myDIV".$capcode3."' onclick='insertTextInInputValue(".$capcode3.");' style='cursor: pointer;display: inline;width: auto;height:10;'>" . $color3 . "</div>";
+$antibot4 = "<div id='myDIV".$capcode4."' onclick='insertTextInInputValue(".$capcode4.");' style='cursor: pointer;display: inline;width: auto;height:10;'>" . $color4 . "</div>";
 }
 setcookie('anticodeaddress', $coden);
 ?>
