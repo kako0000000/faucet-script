@@ -19,9 +19,7 @@ Features:->
 
     => Easy to move your faucet, just download all files and upload.
     => Advanced Proxy and VPN blocker.
-
     => Anti-adblocker.
-
     => Quick blocking if captcha is incorrect for 4 times.
     => Countdown Timer added.
     => Captcha type: ReCaptcha , Solvemedia and Hcaptcha.
