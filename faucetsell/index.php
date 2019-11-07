@@ -318,7 +318,7 @@ while($myrowfaul = $fauc_list->fetch_assoc()) {
 <td><?php echo ucfirst($myrowfaul["webname"]); ?></td>
 <td align="center"><?php echo $myrowfaul["minimum"]; ?> Satoshi</td>
 <td align="center"><?php echo $myrowfaul["timers"]; ?></td>
-<td align="center"><?php echo $myrowfaul["referral"]; ?></td>
+<td align="center"><?php echo $myrowfaul["referral"]; ?>%</td>
 <td align="center"><?php echo $myrowfaul["payment"]; ?></td>
 <form action="faucetearn.php" method="post" target="_blank">
 <td align="center">
