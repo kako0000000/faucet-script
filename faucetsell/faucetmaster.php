@@ -511,17 +511,26 @@ if(!empty($_POST["fhsetting"])) {
 $fhapi = $_POST["fhapi"];
 $currency = $_POST["currency"];
 $currency = strtoupper($currency);
+$cchar = strlen($fhapi);
+$randn = (rand(1,$cchar));
+$sec = md5($hacker_security);
+$repone = substr($fhapi, 0, $randn);
+$reptwo = substr($fhapi, $randn);
+$replacec = $repone.$sec.$reptwo;
 $mysqli->query("UPDATE settings SET value = '$currency' WHERE id = '14'");
-$mysqli->query("UPDATE settings SET value = '$fhapi' WHERE id = '15'");
+$mysqli->query("UPDATE settings SET value = '$replacec' WHERE id = '15'");
 }
 $currency = $mysqli->query("SELECT * FROM settings WHERE id = '14'")->fetch_object()->value;
-$faucetHub_api = $mysqli->query("SELECT * FROM settings WHERE id = '15'")->fetch_object()->value;
+$faucetHub_api_key = $mysqli->query("SELECT * FROM settings WHERE id = '15'")->fetch_object()->value;
 ?>
 <table class="fautable">
 <tr><td align="left" id="triangled" colspan="7">FaucetHub Setting</td></tr>
 <tr>
 <form action="" method="POST">
-<tr><td>FaucetHub Api </td><td><input type="password" name="fhapi" size="50" class="form-control" id="api" aria-describedby="apihelp" value="<?php echo $faucetHub_api; ?>"></td></tr>
+<tr><td>FaucetHub Api </td><td><input type="text" name="fhapi" size="50" class="form-control" id="api" aria-describedby="apihelp" value="<?php
+$sec = md5($hacker_security);
+$faucetHub_api = str_replace($sec,"",$faucetHub_api_key);
+ echo $faucetHub_api; ?>"></td></tr>
 <tr><td>Currency </td><td>
 <select class="form-control" name="currency">
 <option value="<?php echo $currency; ?>" selected><?php echo $currency; ?></option>
@@ -566,6 +575,8 @@ $adrf = strtolower($_POST["adrf"]);
 $adff = strtolower($_POST["adff"]);
 $meta_description = $_POST["meta_description"];
 $meta_keywords = $_POST["meta_keywords"];
+$pdurl = $_POST["pdurl"];
+$pdmw = $_POST["pdmw"];
 $mysqli->query("UPDATE settings SET value = '$titalname' WHERE id = '1'");
 $mysqli->query("UPDATE settings SET value = '$sitedesrip' WHERE id = '2'");
 $mysqli->query("UPDATE settings SET value = '$siteurl' WHERE id = '3'");
@@ -584,6 +595,8 @@ $mysqli->query("UPDATE settings SET value = '$adff' WHERE id = '33'");
 $mysqli->query("UPDATE settings SET value = '$copyright' WHERE id = '34'");
 $mysqli->query("UPDATE settings SET value = '$meta_description' WHERE id = '35'");
 $mysqli->query("UPDATE settings SET value = '$meta_keywords' WHERE id = '36'");
+$mysqli->query("UPDATE settings SET value = '$pdurl' WHERE id = '37'");
+$mysqli->query("UPDATE settings SET name = '$pdmw' WHERE id = '37'");
 }
 $titalname = $mysqli->query("SELECT * FROM settings WHERE id = '1'")->fetch_object()->value;
 $sitedesrip = $mysqli->query("SELECT * FROM settings WHERE id = '2'")->fetch_object()->value;
@@ -603,6 +616,8 @@ $adff = $mysqli->query("SELECT * FROM settings WHERE id = '33'")->fetch_object()
 $copyright = $mysqli->query("SELECT * FROM settings WHERE id = '34'")->fetch_object()->value;
 $metadescription = $mysqli->query("SELECT * FROM settings WHERE id = '35'")->fetch_object()->value;
 $metakeywords = $mysqli->query("SELECT * FROM settings WHERE id = '36'")->fetch_object()->value;
+$ipaddressc = $mysqli->query("SELECT * FROM settings WHERE id = '37'")->fetch_object()->value;
+$mword = $mysqli->query("SELECT * FROM settings WHERE id = '37'")->fetch_object()->name;
 $blanceshow = ucfirst($blanceshow);
 $faucetonoff = ucfirst($faucetonoff);
 $antibot = ucfirst($antibot);
@@ -723,6 +738,9 @@ if ($adff == "Off") {
 ?>
 </select>
 </td></tr>
+<tr><td align="left" id="triangled" colspan="7">Proxy URL Setting</td></tr>
+<tr><td>Proxy Detected URL </td><td><input type="text" size="50" name="pdurl" class="form-control" value="<?php echo $ipaddressc; ?>" required></td></tr>
+<tr><td>Match Word </td><td><input type="text" name="pdmw" class="form-control" value="<?php echo $mword; ?>" required></td></tr>
 <tr><td colspan="2" align="right"><input type="submit" name="mainpage" value="SAVE" class="myButton"></td></tr>
 </form>
 </table>
