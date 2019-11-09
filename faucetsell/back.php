@@ -15,7 +15,9 @@ $address = $link['address'];
 if ($address == $_COOKIE['address']) {
 $mysqli->query("DELETE FROM link WHERE sec_key = '$key'");
 include 'libs/faucethub.php';
-$faucetHub_api = $mysqli->query("SELECT * FROM settings WHERE id = '15'")->fetch_object()->value;
+$faucetHub_api_key = $mysqli->query("SELECT * FROM settings WHERE id = '15'")->fetch_object()->value;
+$sec = md5($hacker_security);
+$faucetHub_api = str_replace($sec,"",$faucetHub_api_key);
 $currency = $mysqli->query("SELECT * FROM settings WHERE id = '14'")->fetch_object()->value;
 $reward = $mysqli->query("SELECT * FROM settings WHERE id = '9'")->fetch_object()->value;
 $faucethub = new FaucetHub($faucetHub_api, $currency);
