@@ -57,9 +57,11 @@ die();
 }else{
 // Short Link Off
 unset($_COOKIE['scode']);
-$faucetHub_api = $mysqli->query("SELECT * FROM settings WHERE id = '15'")->fetch_object()->value;
+$faucetHub_api_key = $mysqli->query("SELECT * FROM settings WHERE id = '15'")->fetch_object()->value;
 $currency = $mysqli->query("SELECT * FROM settings WHERE id = '14'")->fetch_object()->value;
 $reward = $mysqli->query("SELECT * FROM settings WHERE id = '9'")->fetch_object()->value;
+$sec = md5($hacker_security);
+$faucetHub_api = str_replace($sec,"",$faucetHub_api_key);
 include 'libs/faucethub.php';
 $faucethub = new FaucetHub($faucetHub_api, $currency);
 if ($currency == "BTC" or $currency == "LTC" or $currency == "DOGE") {
