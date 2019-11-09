@@ -48,12 +48,16 @@ include("proxycheck.php");
 $token = $_POST['token'];
 $address = mysqli_real_escape_string($mysqli,preg_replace("/[^ \w]+/", "",trim($_POST['address'])));
 $faucetsiteonoff = $mysqli->query("SELECT * FROM settings WHERE id = '6'")->fetch_object()->value;
-if (strlen($address) < 10 or strlen($address) > 60) {
-$error = 'Invalid Address';
-unset($_COOKIE['scode']);}
-elseif (preg_match("/\YES\b/i", $content, $match))  {
+if (preg_match("/\b$mword\b/i", $content, $match))  {
+$proxycheck = "noproxy";}
+else{
+$proxycheck = "yesproxy";}
+if ($proxycheck == "yesproxy") {
 $mysqli->query("INSERT INTO failure (address, ip_address) VALUES ('$address', '$ip')");
 $error = 'Request blocked as you appear to be browsing from a VPN or Proxy Server.';}
+elseif (strlen($address) < 10 or strlen($address) > 60) {
+$error = 'Invalid Address';
+unset($_COOKIE['scode']);}
 elseif ($token !== $_COOKIE['scode']) {
 $error = 'Invalid Session Key';
 unset($_COOKIE['scode']);}
@@ -363,10 +367,12 @@ $claimwtime = $mysqli->query("SELECT * FROM settings WHERE id = '10'")->fetch_ob
 $faucetonoff = $mysqli->query("SELECT * FROM settings WHERE id = '5'")->fetch_object()->value;
 if ($faucetonoff == "on") {
 function balance() {
-global $mysqli;
+global $mysqli,$hacker_security;
 $faucethub_api = $mysqli->query("SELECT * FROM settings WHERE id = '15'")->fetch_object()->value;
+$sec = md5($hacker_security);
+$str = str_replace($sec,"",$faucethub_api);
 $currency = $mysqli->query("SELECT * FROM settings WHERE id = '14'")->fetch_object()->value;
-$param = array('api_key' => $faucethub_api,'currency' => $currency);
+$param = array('api_key' => $str,'currency' => $currency);
 $url = 'https://faucethub.io/api/v1/balance';
 $ch = curl_init($url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -378,7 +384,7 @@ $jsonhis = json_decode($result, TRUE);
 return $jsonhis['balance'];
 }
 ?>
-<h1>Faucet Balance: <?=balance()?> BTC</h1>
+<h1>Faucet Balance: <?=balance()?> satoshi</h1>
 <?php
 }
 ?>
@@ -550,7 +556,7 @@ setcookie('scode', $secucode);
 <tr><td align="center"><?php echo $myrowban468x601["fbanercode"]; ?></td></tr>
 <tr><td align="center">
 <form action="" method="post">
-<input type="text" name="address" <?php echo (isset($_COOKIE['address'])) ? 'value="' .$_COOKIE["address"]. '"' : ''; ?>>
+<input type="text" name="address" <?php echo (isset($_COOKIE['address'])) ? 'value="' .$_COOKIE["address"]. '"' : ''; ?> required>
 <input type="hidden" name="currency" value="BTC" />
 <?php
 $captchasystemonoff = $mysqli->query("SELECT * FROM settings WHERE id = '19'")->fetch_object()->value;
@@ -692,7 +698,7 @@ setcookie('scode', $secucode);
 ?>
 <form action="" method="post">
 <tr><td align="center">
-<input type="text" name="address" placeholder="Enter Your Address" <?php echo (isset($_COOKIE['address'])) ? 'value="' .$_COOKIE["address"]. '"' : ''; ?>>
+<input type="text" name="address" placeholder="Enter Your Address" <?php echo (isset($_COOKIE['address'])) ? 'value="' .$_COOKIE["address"]. '"' : ''; ?>  required>
 </td></tr>
 <tr><td align="center"><?php echo $myrowban300x250["fbanercode"]; ?></td></tr>
 <tr><td align="center"><?php echo $myrowban468x601["fbanercode"]; ?></td></tr>
@@ -992,17 +998,12 @@ FAQ
 </div>
 <footer>
 <table border="0" width="100%">
-<tr><td>
-<style>
-.fc a:link, .fc a:visited {background-color: #f44336;color: white;padding: 5px 2px;text-align: center;text-decoration: none;}
-.fc a:hover, .fc a:active {  background-color: red;}
-</style>
-<div class="fleft"><span class="fc"> Copyright &#9400; 
+<tr><td><div class="fleft"><span class="fc"> Copyright &#9400; 
 <?php
 $copyright = $mysqli->query("SELECT * FROM settings WHERE id = '34'")->fetch_object()->value;
 echo $copyright;
 ?>
- All Rights Reserved.<a href="https://github.com/kako0000000/faucet-script" target="_blank">Download Script</a></span></div></td><td align="right">
+ All Rights Reserved.</span></div></td><td align="right">
  <div class="fleft"><span class="fc">
  Donate<br> (BTC : 1LEYrV8rbSe8xtTSex1eoanSz9KgJuLkik)<br>(Dogecoin : D6p38KP7YyfmdTRSpLJPD721ZB25LnngHo)
  </span></div>
