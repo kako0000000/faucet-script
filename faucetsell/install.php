@@ -168,7 +168,8 @@ INSERT INTO `settings` (`id`, `name`, `value`) VALUES
 (33, 'Ads footer fix', 'off'),
 (34, 'copyright', '2018-2020'),
 (35, 'Meta Description', 'Claim free satoshi every minute'),
-(36, 'Meta Keywords', 'btc');
+(36, 'Meta Keywords', 'Claim free satoshi every minute'),
+(37, 'None detected', 'http://whatismyipaddress.com/ip/');
 ");
 
 $mysqli->query("
