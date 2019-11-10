@@ -549,9 +549,9 @@ $secucode = $resultscf;
 if (isset($_POST['gologin'])) {
 $scode = $_POST['sec'];
 $address = $_POST['address'];
-setcookie('address', $address, time()+86400);
 if ($scode == $_COOKIE['scode']) {
 setcookie('scode', $secucode);
+setcookie('address', $address, time()+86400);
 ?>
 <tr><td align="center"><?php echo $myrowban468x601["fbanercode"]; ?></td></tr>
 <tr><td align="center">
@@ -632,13 +632,17 @@ echo $myrowban320x503["fbanercode"];
 ?></div></td></tr>
 <script>
 function insertTextInInputValue(buttonValueIs){
+var clicks = document.getElementById('cont').innerHTML;
 var inputElementIs = document.getElementById("tussenstand");
 inputElementIs.value = inputElementIs.value + buttonValueIs;
 x = document.getElementById("myDIV" + buttonValueIs);
 x.style.display = "none";
 y = document.getElementById("myDIV");
 y.style.display = "block";
-}
+document.getElementById('cont').innerHTML = ++clicks;
+if (clicks === 4) {
+document.getElementById("claimb").style.display = "block";
+}}
 function resentall(){
 var inputElementIs = document.getElementById("tussenstand");
 inputElementIs.value = "";
@@ -652,14 +656,17 @@ x = document.getElementById("myDIV<?php echo $capcode4 ?>");
 x.style.display = "block";
 y = document.getElementById("myDIV");
 y.style.display = "none";
+document.getElementById('cont').innerHTML = "0";
+document.getElementById("claimb").style.display = "none";
 }
 </script>
 </table>
+<div id="cont" style="display: none"></div>
 </center>
 </div>
 <div id="btnclaim">
 <input id="tussenstand" type="hidden" name="anticode">
-<button type="submit" name="claim">Claim Your Coin</button>
+<button type="submit" name="claim" id="claimb" style="display: none">Claim Your Coin</button>
 </div>
 </div>
 </div>
