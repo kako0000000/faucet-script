@@ -8,6 +8,7 @@ Go to your webhost and create a new database called "faucet".
 upload public folder's all files and folders to your host's public_hrml folder.
 
 Open labs/Database.php files and edit the deatails of files with your database credits (database name,database username,database password).
+Also change "secretword" with your secret word.
 install.php which will delete the file after it is installed.
 
 
