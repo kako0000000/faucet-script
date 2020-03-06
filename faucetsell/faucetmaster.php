@@ -10,7 +10,7 @@ a:hover, a:active {background-color: #f44336;color: black;}
 .fautable td {padding:4px;border: 1px solid #ddd;}
 .faubtil{padding:10px;}
 #triangled {background-color:#00a693;padding:15px 10px;font-size:20px;color:#fff;text-shadow: 1px 1px #000;}
-.myButton {box-shadow:inset 0px 0px 15px 3px #23395e;background:linear-gradient(to bottom, #2e466e 5%, #415989 100%);background-color:#2e466e;border-radius:17px;border:1px solid #1f2f47;display:inline-block;cursor:pointer;color:#ffffff;font-size:15px;padding:6px 13px;text-decoration:none;text-shadow:0px 1px 0px #263666;}
+.myButton {box-shadow:inset 0px 0px 15px 3px #23395e;background:linear-gradient(to bottom, #2e466e 5%, #415989 100%);background-color:#2e466e;border-radius:17px;border:1px solid #1f2f47;display:inline-block;cursor:pointer;color:#ffffff;font-size:12px;padding:6px 13px;text-decoration:none;text-shadow:0px 1px 0px #263666;}
 .myButton:hover {background:linear-gradient(to bottom, #415989 5%, #2e466e 100%);background-color:#415989;}
 .myButton:active {position:relative;top:1px;}
 </style>
@@ -26,12 +26,25 @@ $sitedesrip = $mysqli->query("SELECT * FROM settings WHERE id = '2'")->fetch_obj
 if (isset($_COOKIE['adminfaucet'])) {
 ?>
 <table border="0" width="100%">
-<tr><td><a href="faucetmaster.php">Main Page</a> <a href="faucetmaster.php?op=FaucetHubSetting">Faucet Hub Setting</a> <a href="faucetmaster.php?op=captchasystem">Captcha System</a> <a href="faucetmaster.php?op=ShortLink">Short Link</a> <a href="faucetmaster.php?op=banner">Banner</a> <a href="faucetmaster.php?op=addnfl">Faucet List</a> <a href="faucetmaster.php?op=addptcl">PTC List</a> <a href="faucetmaster.php?op=logout">Logout</a></td></tr>
+<tr><td><a href="faucetmaster.php">Main Page</a> <a href="faucetmaster.php?op=FaucetHubSetting">Payout API Setting</a> <a href="faucetmaster.php?op=captchasystem">Captcha System</a> <a href="faucetmaster.php?op=ShortLink">Short Link</a> <a href="faucetmaster.php?op=banner">Banner</a> <a href="faucetmaster.php?op=addnfl">Faucet List</a> <a href="faucetmaster.php?op=addptcl">PTC List</a> <a href="faucetmaster.php?op=logout">Logout</a></td></tr>
 </table>
 <?php
 if(!empty($_GET["op"])) {
 $opt = $_GET["op"];
 if ($opt == "addptcl") {
+if(!empty($_POST["delptcl"])) {
+$secucode = $_POST["secucode"];
+?>
+<table class="fautable">
+<tr><td align="center" id="triangled" colspan="7">Do you really want to delete record?</td></tr>
+<tr>
+<form action="faucetmaster.php?op=addptcl" method="POST">
+<td align="center"><input type="submit" onclick="window.location.replace('faucetmaster.php?op=addptcl')" value="Cancel" class="myButton">&nbsp;<input type="hidden" name="secucode" value="<?php echo $secucode; ?>"><input type="submit" value="Conform Delete" name="cdelptcl" class="myButton"></td>
+</form>
+</tr>
+</table>
+<?php
+}else{
 if(!empty($_POST["upptcl"])) {
 $img  = $_POST["img"];
 $refurl  = $_POST["ptcurl"];
@@ -46,7 +59,10 @@ if ($img  == "" || $refurl  == "" || $earnup  == "" || $adment  == "" || $referr
 }else{
 $querybannerupdate = "UPDATE ptclist Set img='$img', refurl ='$refurl', earnup ='$earnup', adment ='$adment', referral ='$referral', dayopen ='$dayopen', minpayout ='$minpayout', withdraw='$withdraw' where secucode ='$secucode'";
 $resultsam = mysqli_query($mysqli, $querybannerupdate);
-}
+}}elseif(!empty($_POST["cdelptcl"])) {
+$secucode = $_POST["secucode"];
+$queryfaucetdel = "DELETE FROM ptclist  where secucode='$secucode'";
+$resultsam = mysqli_query($mysqli, $queryfaucetdel);
 }elseif(!empty($_POST["newptcl"])) {
 $img  = $_POST["img"];
 $refurl  = $_POST["ptcurl"];
@@ -133,6 +149,7 @@ while($myrowfaul = mysqli_fetch_array($checkfaul)){
 <td align="center">
 <input type="hidden" name="secucode" value="<?php echo $myrowfaul["secucode"]; ?>">
 <input type="submit" name="upptcl" value="Update" class="myButton">
+<input type="submit" name="delptcl" value="Delete" class="myButton">
 </td>
 </form>
 </tr>
@@ -141,7 +158,20 @@ while($myrowfaul = mysqli_fetch_array($checkfaul)){
 ?>
 </table>
 <?php
-}elseif ($opt == "addnfl") {
+}}elseif ($opt == "addnfl") {
+if(!empty($_POST["delfaucetl"])) {
+$secucode = $_POST["secucode"];
+?>
+<table class="fautable">
+<tr><td align="center" id="triangled" colspan="7">Do you really want to delete record?</td></tr>
+<tr>
+<form action="faucetmaster.php?op=addnfl" method="POST">
+<td align="center"><input type="submit" onclick="window.location.replace('faucetmaster.php?op=addnfl')" value="Cancel" class="myButton">&nbsp;<input type="hidden" name="secucode" value="<?php echo $secucode; ?>"><input type="submit" value="Conform Delete" name="cdelfaucetl" class="myButton"></td>
+</form>
+</tr>
+</table>
+<?php
+}else{
 if(!empty($_POST["upfaucetl"])) {
 $webname = $_POST["webname"];
 $refurl = $_POST["refurl"];
@@ -154,7 +184,11 @@ if ($webname == "" || $refurl == "" || $minimum == "" || $timers == "" || $refer
 }else{
 $querybannerupdate = "UPDATE fauclist Set webname='$webname', refurl='$refurl', minimum='$minimum', timers='$timers', referral='$referral', payment='$payment' where secucode='$secucode'";
 $resultsam = mysqli_query($mysqli, $querybannerupdate);
-}}elseif(!empty($_POST["newfaucetl"])) {
+}}elseif(!empty($_POST["cdelfaucetl"])) {
+$secucode = $_POST["secucode"];
+$queryfaucetdel = "DELETE FROM fauclist  where secucode='$secucode'";
+$resultsam = mysqli_query($mysqli, $queryfaucetdel);
+}elseif(!empty($_POST["newfaucetl"])) {
 $webname = $_POST["webname"];
 $refurl = $_POST["refurl"];
 $minimum = $_POST["minimum"];
@@ -176,7 +210,7 @@ $result = mysqli_query($mysqli, $queryaddb);
 <table class="fautable">
 <tr><td align="left" id="triangled" colspan="7">Bitcoin Faucet List</td></tr>
 <tr>
-<th>Faucet Web</th><th>URL</th><th>Reward</th><th>Timer</th><th>Referral</th><th>Payment</th><th>Option</th>
+<th>Faucet Web</th><th>URL</th><th>Reward</th><th>Timer</th><th>Referral</th><th>Payment method</th><th>Option</th>
 </tr>
 <tr>
 <form action="faucetmaster.php?op=addnfl" method="post">
@@ -185,12 +219,7 @@ $result = mysqli_query($mysqli, $queryaddb);
 <td align="center"><input type="text" name="minimum" size="3"> Satoshi</td>
 <td align="center"><input type="text" name="timers" size="3"></td>
 <td align="center"><input type="text" name="referral" size="3"></td>
-<td align="center">
-<select class="form-control" name="payment">
-<option value="FaucetBox">FaucetBox</option>
-<option value="bitcoin wallet">bitcoin wallet</option>
-</select>
-</td>
+<td align="center"><input type="text" name="payment"></td>
 <td align="center">
 <input type="submit" name="newfaucetl" value="New" class="myButton">
 </td>
@@ -203,7 +232,7 @@ if ($totalfaul == "0"){
 }else{
 ?>
 <tr>
-<th>Faucet Web</th><th>URL</th><th>Reward</th><th>Timer</th><th>Referral</th><th>Payment</th><th>Option</th>
+<th>Faucet Web</th><th>URL</th><th>Reward</th><th>Timer</th><th>Referral</th><th>Payment method</th><th>Option</th>
 </tr>
 <?php
 while($myrowfaul = mysqli_fetch_array($checkfaul)){
@@ -218,7 +247,7 @@ while($myrowfaul = mysqli_fetch_array($checkfaul)){
 <td align="center"><input type="text" name="payment" size="15" value='<?php echo $myrowfaul["payment"]; ?>'></td>
 <td align="center">
 <input type="hidden" name="faucode" value="<?php echo $myrowfaul["secucode"]; ?>">
-<input type="submit" name="upfaucetl" value="Update" class="myButton">
+<input type="submit" name="upfaucetl" value="Update" class="myButton">&nbsp;<input type="hidden" name="secucode" value="<?php echo $myrowfaul["secucode"]; ?>"><input type="submit" name="delfaucetl" value="Delete" class="myButton">
 </td>
 </form>
 </tr>
@@ -227,7 +256,7 @@ while($myrowfaul = mysqli_fetch_array($checkfaul)){
 ?>
 </table>
 <?php
-}elseif ($opt == "logout") {
+}}elseif ($opt == "logout") {
 setcookie("adminfaucet", "adminlogin", time()-3600);
 header('Location: faucetmaster.php');
 }elseif ($opt == "ShortLink") {
@@ -274,6 +303,19 @@ if ($short_link_on == "Off") {
 </form>
 </table>
 <?php
+if(!empty($_POST["delshortlink"])) {
+$secucode = $_POST["secucode"];
+?>
+<table class="fautable">
+<tr><td align="center" id="triangled" colspan="7">Do you really want to delete record?</td></tr>
+<tr>
+<form action="faucetmaster.php?op=ShortLink" method="POST">
+<td align="center"><input type="submit" onclick="window.location.replace('faucetmaster.php?op=ShortLink')" value="Cancel" class="myButton">&nbsp;<input type="hidden" name="secucode" value="<?php echo $secucode; ?>"><input type="submit" value="Conform Delete" name="cdelshortlink" class="myButton"></td>
+</form>
+</tr>
+</table>
+<?php
+}else{
 if(!empty($_POST["updateshortlink"])) {
 $shortlink = $_POST["shortlinkid"];
 $upclick = $_POST["updslinkclick"];
@@ -281,12 +323,22 @@ $sldiup = $_POST["sldiup"];
 $addnslink = mysqli_real_escape_string($mysqli, $_POST['addnslink']);
 $querybannerupdate = "UPDATE short_link Set short_link='$addnslink', click='$upclick', dandi='$sldiup' where id='$shortlink'";
 $resultsam = mysqli_query($mysqli, $querybannerupdate);
+}elseif(!empty($_POST["cdelshortlink"])) {
+$secucode = $_POST["secucode"];
+$queryfaucetdel = "DELETE FROM short_link  where secucode='$secucode'";
+$resultsam = mysqli_query($mysqli, $queryfaucetdel);
 }elseif(!empty($_POST["newshortlink"])) {
 $addnslink = mysqli_real_escape_string($mysqli, $_POST['addnslink']);
 $addnslink = $addnslink . "={url}";
 $addnslinkclick = $_POST["addnslinkclick"];
 $shortlinkdi = $_POST["shortlinkdi"];
-$queryaddb = "INSERT INTO short_link (id, short_link, click, dandi) VALUES ('', '$addnslink', '$addnslinkclick', '$shortlinkdi')";
+$id = md5(uniqid());
+$strtime = time();
+$resultsc = md5($strtime);
+$finalc = $id . $resultsc;
+$resultscf = md5($finalc);
+$secucode = $resultscf;
+$queryaddb = "INSERT INTO short_link (id, short_link, click, dandi, secucode) VALUES ('', '$addnslink', '$addnslinkclick', '$shortlinkdi', '$secucode')";
 $result = mysqli_query($mysqli, $queryaddb);
 }
 $result = mysqli_query($mysqli, "SELECT * FROM short_link");
@@ -297,7 +349,7 @@ $result = mysqli_query($mysqli, "SELECT * FROM short_link");
 <th>Short Link http://btc.ms/api/?api=api&url</th><th>Click Per IP</th><th>D & Indirect</th><th>Option</th>
 </tr>
 <tr><form action="faucetmaster.php?op=ShortLink" method="POST">
-<td><input type="text" name="addnslink" size="70" ></td>
+<td><input type="text" name="addnslink" size="50" ></td>
 <td align="center"><input type="number" min="1" name="addnslinkclick" size="5" ></td>
 <td align="center"><select class="form-control" name="shortlinkdi">
 <option value="y">Yes</option>
@@ -314,7 +366,7 @@ $countbanner = "1";
 while($myrowmem = mysqli_fetch_array($result)){
 ?>
 <tr><form action="faucetmaster.php?op=ShortLink" method="POST">
-<td><?php echo $countbanner ?> . <input type="hidden" name="shortlinkid" value="<?php echo $myrowmem["id"]; ?>"><input type="text" name="addnslink" size="90" value="<?php echo $myrowmem["short_link"]; ?>"></td>
+<td><?php echo $countbanner ?> . <input type="hidden" name="shortlinkid" value="<?php echo $myrowmem["id"]; ?>"><input type="text" name="addnslink" size="50" value="<?php echo $myrowmem["short_link"]; ?>"></td>
 <td align="center"><input type="text" name="updslinkclick" size="5" value="<?php echo $myrowmem["click"]; ?>"></td>
 <td align="center">
 <select class="form-control" name="sldiup">
@@ -332,7 +384,7 @@ if ($myrowmem["dandi"] == "y") {
 ?>
 </select>
 </td>
-<td align="center"><input type="submit" value="Update" name="updateshortlink" class="myButton"></td>
+<td align="center"><input type="submit" value="Update" name="updateshortlink" class="myButton">&nbsp;<input type="hidden" name="secucode" value="<?php echo $myrowmem["secucode"]; ?>"><input type="submit" value="Delete" name="delshortlink" class="myButton"></td>
 </form>
 </tr>
 <?php
@@ -341,7 +393,20 @@ $countbanner = $countbanner+1;
 ?>
 </table>
 <?php
-}elseif ($opt == 'banner') {
+}}elseif ($opt == 'banner') {
+if(!empty($_POST["deladdbanner"])) {
+$secucode = $_POST["secucode"];
+?>
+<table class="fautable">
+<tr><td align="center" id="triangled" colspan="7">Do you really want to delete record?</td></tr>
+<tr>
+<form action="faucetmaster.php?op=banner" method="POST">
+<td align="center"><input type="submit" onclick="window.location.replace('faucetmaster.php?op=banner')" value="Cancel" class="myButton">&nbsp;<input type="hidden" name="secucode" value="<?php echo $secucode; ?>"><input type="submit" value="Conform Delete" name="cdeladdbanner" class="myButton"></td>
+</form>
+</tr>
+</table>
+<?php
+}else{
 if(!empty($_POST["updateaddbanner"])) {
 $bannerid = $_POST["bannerid"];
 $codebanner = $_POST["codebanner"];
@@ -349,11 +414,21 @@ $bwebname = $_POST["bwebname"];
 $bsize = $_POST["bsize"];
 $querybannerupdate = "UPDATE banners Set fbanercode='$codebanner', websitename='$bwebname', bannersize='$bsize' where fnum='$bannerid'";
 $resultsam = mysqli_query($mysqli, $querybannerupdate);
+}elseif(!empty($_POST["cdeladdbanner"])) {
+$secucode = $_POST["secucode"];
+$queryfaucetdel = "DELETE FROM banners  where secucode='$secucode'";
+$resultsam = mysqli_query($mysqli, $queryfaucetdel);
 }elseif(!empty($_POST["newaddbanner"])) {
+$id = md5(uniqid());
+$strtime = time();
+$resultsc = md5($strtime);
+$finalc = $id . $resultsc;
+$resultscf = md5($finalc);
+$secucode = $resultscf;
 $bwebname = $_POST["bwebname"];
 $bsize = $_POST["bsize"];
 $codebanner = mysqli_real_escape_string($mysqli, $_POST['codebanner']);
-$queryaddb = "INSERT INTO banners (fnum, fbanercode, websitename, bannersize) VALUES ('', '$codebanner', '$bwebname', '$bsize')";
+$queryaddb = "INSERT INTO banners (fnum, fbanercode, websitename, bannersize, secucode) VALUES ('', '$codebanner', '$bwebname', '$bsize', '$secucode')";
 $result = mysqli_query($mysqli, $queryaddb);
 }
 $sql = "SELECT * FROM banners";
@@ -405,7 +480,7 @@ while($myrepads = mysqli_fetch_array($resultrepads)){
 }
 ?>
 </select></td>
-<td align="center"><input type="submit" value="Update" name="updateaddbanner" class="myButton"></td>
+<td align="center"><input type="submit" value="Update" name="updateaddbanner" class="myButton">&nbsp;<input type="hidden" name="secucode" value="<?php echo $myrowmem["secucode"]; ?>"><input type="submit" value="Delete" name="deladdbanner" class="myButton"></td>
 </tr>
 </form>
 <?php
@@ -414,6 +489,7 @@ $countbanner = $countbanner+1;
 ?>
 </table>
 <?php
+}
 }elseif ($opt == "captchasystem") {
 if(!empty($_POST["fhsetting"])) {
 $autocaptchas = strtolower($_POST["autocaptchas"]);
@@ -508,48 +584,103 @@ if ($captchasystem == "Recaptcha") {
 <?php
 }elseif ($opt == "FaucetHubSetting") {
 if(!empty($_POST["fhsetting"])) {
+$payout_website = $_POST["payout_website"];
 $fhapi = $_POST["fhapi"];
 $currency = $_POST["currency"];
+$fpapi = $_POST["fpapi"];
+$exapi = $_POST["exapi"];
+$exuser = $_POST["exuser"];
+$micapi = $_POST["micapi"];
 $currency = strtoupper($currency);
 $cchar = strlen($fhapi);
 $randn = (rand(1,$cchar));
 $sec = md5($hacker_security);
 $repone = substr($fhapi, 0, $randn);
 $reptwo = substr($fhapi, $randn);
-$replacec = $repone.$sec.$reptwo;
+$replacecfhapi = $repone.$sec.$reptwo;
+$cchar = strlen($fpapi);
+$randn = (rand(1,$cchar));
+$sec = md5($hacker_security);
+$repone = substr($fpapi, 0, $randn);
+$reptwo = substr($fpapi, $randn);
+$replacecfpapi = $repone.$sec.$reptwo;
+$cchar = strlen($exapi);
+$randn = (rand(1,$cchar));
+$sec = md5($hacker_security);
+$repone = substr($exapi, 0, $randn);
+$reptwo = substr($exapi, $randn);
+$replacecexapi = $repone.$sec.$reptwo;
+$cchar = strlen($exuser);
+$randn = (rand(1,$cchar));
+$sec = md5($hacker_security);
+$repone = substr($exuser, 0, $randn);
+$reptwo = substr($exuser, $randn);
+$replacecexuser = $repone.$sec.$reptwo;
+$cchar = strlen($micapi);
+$randn = (rand(1,$cchar));
+$sec = md5($hacker_security);
+$repone = substr($micapi, 0, $randn);
+$reptwo = substr($micapi, $randn);
+$replacecmicapi = $repone.$sec.$reptwo;
 $mysqli->query("UPDATE settings SET value = '$currency' WHERE id = '14'");
-$mysqli->query("UPDATE settings SET value = '$replacec' WHERE id = '15'");
+$mysqli->query("UPDATE settings SET value = '$replacecfhapi' WHERE id = '15'");
+$mysqli->query("UPDATE settings SET value = '$payout_website' WHERE id = '38'");
+$mysqli->query("UPDATE settings SET value = '$replacecfpapi' WHERE id = '39'");
+$mysqli->query("UPDATE settings SET value = '$replacecexapi' WHERE id = '40'");
+$mysqli->query("UPDATE settings SET value = '$replacecexuser' WHERE id = '41'");
+$mysqli->query("UPDATE settings SET value = '$replacecmicapi' WHERE id = '42'");
 }
 $currency = $mysqli->query("SELECT * FROM settings WHERE id = '14'")->fetch_object()->value;
+$payoutwebsite = $mysqli->query("SELECT * FROM settings WHERE id = '38'")->fetch_object()->value;
 $faucetHub_api_key = $mysqli->query("SELECT * FROM settings WHERE id = '15'")->fetch_object()->value;
+$faucetpay_api_token = $mysqli->query("SELECT * FROM settings WHERE id = '39'")->fetch_object()->value;
+$expresscrypto_api_token = $mysqli->query("SELECT * FROM settings WHERE id = '40'")->fetch_object()->value;
+$expresscrypto_user_token = $mysqli->query("SELECT * FROM settings WHERE id = '41'")->fetch_object()->value;
+$microwallet_api = $mysqli->query("SELECT * FROM settings WHERE id = '42'")->fetch_object()->value;
 ?>
 <table class="fautable">
-<tr><td align="left" id="triangled" colspan="7">FaucetHub Setting</td></tr>
-<tr>
 <form action="" method="POST">
+<tr><td align="left" id="triangled" colspan="7">Payout Website Setting</td></tr>
+<tr><td>Payout Website</td><td>
+<select class="form-control" name="payout_website">
+<option value="<?php echo $payoutwebsite; ?>" selected><?php echo $payoutwebsite; ?></option>
+<option value="Expresscrypto.io">Expresscrypto.io</option>
+<option value="Faucetpay.io">Faucetpay.io</option>
+<option value="Microwallet.co">Microwallet.co</option>
+<option value="Faucethub.io">Faucethub.io</option>
+</select>
+</td></tr>
+<tr><td align="left" id="triangled" colspan="7">FaucetHub API Setting</td></tr>
 <tr><td>FaucetHub Api </td><td><input type="text" name="fhapi" size="50" class="form-control" id="api" aria-describedby="apihelp" value="<?php
 $sec = md5($hacker_security);
 $faucetHub_api = str_replace($sec,"",$faucetHub_api_key);
  echo $faucetHub_api; ?>"></td></tr>
-<tr><td>Currency </td><td>
+<tr><td align="left" id="triangled" colspan="7">Faucetpay API Setting</td></tr>
+<tr><td>Faucetpay_api_token </td><td><input type="text" name="fpapi" size="50" class="form-control" id="api" aria-describedby="apihelp" value="<?php
+$sec = md5($hacker_security);
+$faucetpay_api_token = str_replace($sec,"",$faucetpay_api_token);
+ echo $faucetpay_api_token; ?>"></td></tr> 
+<tr><td align="left" id="triangled" colspan="7">Expresscrypto API Setting</td></tr>
+<tr><td>Expresscrypto_api_key </td><td><input type="text" name="exapi" size="50" class="form-control" id="api" aria-describedby="apihelp" value="<?php
+$sec = md5($hacker_security);
+$expresscrypto_api_token = str_replace($sec,"",$expresscrypto_api_token);
+ echo $expresscrypto_api_token; ?>"></td></tr> 
+ <tr><td>Expresscrypto_user_token </td><td><input type="text" name="exuser" size="50" class="form-control" id="api" aria-describedby="apihelp" value="<?php
+$sec = md5($hacker_security);
+$expresscrypto_user_token = str_replace($sec,"",$expresscrypto_user_token);
+ echo $expresscrypto_user_token; ?>"></td></tr> 
+<tr><td align="left" id="triangled" colspan="7">Microwallet API Setting</td></tr>
+<tr><td>Microwallet_API </td><td><input type="text" name="micapi" size="50" class="form-control" id="api" aria-describedby="apihelp" value="<?php
+$sec = md5($hacker_security);
+$microwallet_api = str_replace($sec,"",$microwallet_api);
+ echo $microwallet_api; ?>"></td></tr> 
+ <tr><td align="left" id="triangled" colspan="7">Payout Currency Setting</td></tr>
+ <tr><td>Currency </td><td>
 <select class="form-control" name="currency">
 <option value="<?php echo $currency; ?>" selected><?php echo $currency; ?></option>
 <option value="BTC">BTC</option>
-<option value="ETH">ETH</option>
-<option value="HORA">HORA</option>
-<option value="TRX">TRX</option>
-<option value="XMR">XMR</option>
 <option value="LTC">LTC</option>
 <option value="DOGE">DOGE</option>
-<option value="BCH">BCH</option>
-<option value="ZEC">ZEC</option>
-<option value="DGB">DGB</option>
-<option value="BTX">BTX</option>
-<option value="BLK">BLK</option>
-<option value="DASH">DASH</option>
-<option value="PPC">PPC</option>
-<option value="XPM">XPM</option>
-<option value="POT">POT</option>
 </select>
 <tr><td colspan="2" align="right"><input type="submit" name="fhsetting" value="SAVE" class="myButton"></td></tr>
 </form>
