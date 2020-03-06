@@ -18,7 +18,7 @@ $checkip = $mysqli->query("SELECT * FROM ip_list WHERE ip_address = '$ip'");
 if ($checkip->num_rows == 1) {
 $data = $checkip->fetch_assoc();
 $claimwtime = $mysqli->query("SELECT * FROM settings WHERE id = '10'")->fetch_object()->value;
-$time = $data['last_claim'] + $claimwtime - time();
+$time = $data['last_claim'] - time();
 if ($time > 0) {
 $waiteclaim = "waiteclaim";}
 else{
@@ -46,7 +46,12 @@ $waiteclaim = "claim";
 if (isset($_POST['claim'])) {
 include("proxycheck.php");
 $token = $_POST['token'];
+$payoutwebsite = $mysqli->query("SELECT * FROM settings WHERE id = '38'")->fetch_object()->value;
+if ($payoutwebsite == "Expresscrypto.io") {
+$address = $_POST['address'];
+}else{
 $address = mysqli_real_escape_string($mysqli,preg_replace("/[^ \w]+/", "",trim($_POST['address'])));
+}
 $faucetsiteonoff = $mysqli->query("SELECT * FROM settings WHERE id = '6'")->fetch_object()->value;
 if (preg_match("/\b$mword\b/i", $content, $match))  {
 $proxycheck = "noproxy";}
@@ -165,6 +170,7 @@ echo $myrowban990x901["fbanercode"];
 ?>
 <style>
 .Social1 {margin:0 20px;}
+.alert-news{letter-spacing: 2px;font-weight: bold;font-size:16px;}
 </style>
 <div style="background-color:#a88e42;">
 <div class="Social1">
@@ -173,6 +179,7 @@ echo $myrowban990x901["fbanercode"];
 <a href="http://pinterest.com/pin/create/button/?url=<?php echo $siteurl; ?>&description=<?php echo $sitedesrip; ?>" class="pin-it-button" count-layout="horizontal"><img src="asset/img/prat.png" alt="Pinterest" title="Post Pinterest" border="0"></a>
 <a href="http://www.tumblr.com/share/link?url=<?php echo $siteurl; ?>&amp;title=<?php echo $titalname; ?>" target="_blank"><img src="asset/img/tumbir.png" alt="Tumblr" title="Share On Tumblr" border="0"></a>
 <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=<?php echo $siteurl; ?>" target="_blank"><img src="asset/img/linkin.png" alt="Linkin" title="Share On Link in" border="0"></a>
+<a href="http://itcollegeall.blogspot.com/p/faucet-script.html" target="_blank"><img src="asset/img/download.png" alt="Download" title="Download Script" border="0"></a>
 </div>
 </div><div class="header">
 <ul id="nav">
@@ -364,28 +371,22 @@ $claimwtime = $mysqli->query("SELECT * FROM settings WHERE id = '10'")->fetch_ob
 <h1><?=$sitename ?></h1>
 <h1>Claim <?php echo $claimsatoshi ?> satoshi (BTC) every <?php echo $claimwtime ?> minutes</h1>
 <?php
-$faucetonoff = $mysqli->query("SELECT * FROM settings WHERE id = '5'")->fetch_object()->value;
-if ($faucetonoff == "on") {
-function balance() {
-global $mysqli,$hacker_security;
-$faucethub_api = $mysqli->query("SELECT * FROM settings WHERE id = '15'")->fetch_object()->value;
-$sec = md5($hacker_security);
-$str = str_replace($sec,"",$faucethub_api);
-$currency = $mysqli->query("SELECT * FROM settings WHERE id = '14'")->fetch_object()->value;
-$param = array('api_key' => $str,'currency' => $currency);
-$url = 'https://faucethub.io/api/v1/balance';
-$ch = curl_init($url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_POST, count($param));
-curl_setopt($ch, CURLOPT_POSTFIELDS, $param);
-$result = curl_exec($ch);
-curl_close($ch);
-$jsonhis = json_decode($result, TRUE);
-return $jsonhis['balance'];
+$payoutwebsite = $mysqli->query("SELECT * FROM settings WHERE id = '38'")->fetch_object()->value;
+if ($payoutwebsite == "Faucethub.io") {
+$regwebsite = "<p class='alert-news'>Faucet moved to <a target='_blank' href='https://faucethub.io/?r=76287'>on Faucethub.io</a>. Register, link your BTC address and start claiming.</p>";
+}elseif ($payoutwebsite == "Expresscrypto.io") {
+$regwebsite = "<p class='alert-news'>Faucet moved to <a target='_blank' href='https://expresscrypto.io/signup?referral=17665'>on Expresscrypto.io</a>. Register, link your BTC address and start claiming.</p>";
+}elseif ($payoutwebsite == "Faucetpay.io") {
+$regwebsite = "<p class='alert-news'>Faucet moved to <a target='_blank' href='https://faucetpay.io/?r=76287'>on FaucetPay.io</a>. Register, link your BTC address and start claiming.</p>";
+}elseif ($payoutwebsite == "Microwallet.co") {
+$regwebsite = "<p class='alert-news'>Faucet moved to <a target='_blank' href='https://microwallet.co/?r=76287'>on Microwallet.co</a>. Register, link your BTC address and start claiming.</p>";
 }
 ?>
-<h1>Faucet Balance: <?=balance()?> satoshi</h1>
+<h1><?php echo $regwebsite ?></h1>
 <?php
+$faucetonoff = $mysqli->query("SELECT * FROM settings WHERE id = '5'")->fetch_object()->value;
+if ($faucetonoff == "on") {
+include("libs/balanceshow.php");
 }
 ?>
 </div>
@@ -414,8 +415,16 @@ $event = '<p class="alert-danger">You have cookies disabled. Please try again</p
 if($e == "2"){
 $claimsatoshi = $mysqli->query("SELECT * FROM settings WHERE id = '9'")->fetch_object()->value;
 $address = $_COOKIE['address'];
+$payoutwebsite = $mysqli->query("SELECT * FROM settings WHERE id = '38'")->fetch_object()->value;
+if ($payoutwebsite == "Faucethub.io") {
 $event = "<p class='alert-success'>$claimsatoshi satoshi was sent to you <a target='_blank' href='https://faucethub.io/check/$address'>on FaucetHub.io</a>.</p>";
-}
+}elseif ($payoutwebsite == "Expresscrypto.io") {
+$event = "<p class='alert-success'>$claimsatoshi satoshi was sent to you <a target='_blank' href='https://expresscrypto.io/check/$address'>on Expresscrypto.io</a>.</p>";
+}elseif ($payoutwebsite == "Faucetpay.io") {
+$event = "<p class='alert-success'>$claimsatoshi satoshi was sent to you <a target='_blank' href='https://faucetpay.io/check/$address'>on Faucetpay.io</a>.</p>";
+}elseif ($payoutwebsite == "Microwallet.co") {
+$event = "<p class='alert-success'>$claimsatoshi satoshi was sent to you <a target='_blank' href='https://microwallet.co/check/$address'>on Microwallet.co</a>.</p>";
+}}
 if($e == "3"){
 $event = '<p class="alert-danger">Link Expire ( Please Try Again ).</p>';
 }
@@ -556,7 +565,7 @@ setcookie('address', $address, time()+86400);
 <tr><td align="center"><?php echo $myrowban468x601["fbanercode"]; ?></td></tr>
 <tr><td align="center">
 <form action="" method="post">
-<input type="text" name="address" <?php echo (isset($_COOKIE['address'])) ? 'value="' .$_COOKIE["address"]. '"' : ''; ?> required>
+<input type="text" name="address" value="<?php echo $address; ?>" required>
 <input type="hidden" name="currency" value="BTC" />
 <?php
 $captchasystemonoff = $mysqli->query("SELECT * FROM settings WHERE id = '19'")->fetch_object()->value;
@@ -705,7 +714,31 @@ setcookie('scode', $secucode);
 ?>
 <form action="" method="post">
 <tr><td align="center">
+
+<?php
+$payoutwebsite = $mysqli->query("SELECT * FROM settings WHERE id = '38'")->fetch_object()->value;
+if ($payoutwebsite == "Faucetpay.io") {
+?>
 <input type="text" name="address" placeholder="Enter Your Address" <?php echo (isset($_COOKIE['address'])) ? 'value="' .$_COOKIE["address"]. '"' : ''; ?>  required>
+<?php
+}elseif ($payoutwebsite == "Expresscrypto.io") {
+?>
+<input type="text" name="address" placeholder="EC-UserId-17665" <?php echo (isset($_COOKIE['address'])) ? 'value="' .$_COOKIE["address"]. '"' : ''; ?>  required>
+<?php
+}elseif ($payoutwebsite == "Microwallet.co") {
+?>
+<input type="text" name="address" placeholder="Enter Your Address" <?php echo (isset($_COOKIE['address'])) ? 'value="' .$_COOKIE["address"]. '"' : ''; ?>  required>
+<?php
+}elseif ($payoutwebsite == "Faucethub.io") {
+?>
+<input type="text" name="address" placeholder="Enter Your Address" <?php echo (isset($_COOKIE['address'])) ? 'value="' .$_COOKIE["address"]. '"' : ''; ?>  required>
+<?php
+}
+?>
+
+
+
+
 </td></tr>
 <tr><td align="center"><?php echo $myrowban300x250["fbanercode"]; ?></td></tr>
 <tr><td align="center"><?php echo $myrowban468x601["fbanercode"]; ?></td></tr>
@@ -806,9 +839,11 @@ setTimeout(function() { location.href = '<?php echo $siteurl; ?>'; }, 1000);
 }}, 1000);
 </script>
 <style>
+p1 {text-align: center;font-size: 30px;margin: 0px;}
 p {text-align: center;font-size: 60px;margin: 0px;}
+
 </style>
-<p>You have to wait</p>
+<p1>Your limit is over earn satoshi Next Day</p1>
 <p id="demo"></p>
 </center></td></tr>
 <tr><td align="center"><?php
@@ -854,7 +889,7 @@ echo $myrowban468x60["fbanercode"];
 <tr><td><center>
 <script>
 <?php
-$last_claim = $mysqli->query("SELECT * FROM ip_list WHERE ip_address = '$ip'")->fetch_object()->count_value;
+$last_claim = $mysqli->query("SELECT * FROM ip_list WHERE ip_address = '$ip'")->fetch_object()->last_claim;
 $wtimerr = $last_claim * 1000;
 ?>
 var waitt = <?php echo $wtimerr; ?>;
