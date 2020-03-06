@@ -1,9 +1,7 @@
 <h1>Remember to remove this file when you are done :)</h1>
 <?php
 include("libs/database.php");
-
 $mysqli->query("DROP TABLE `address_list` ,`banners` ,`failure` ,`fauclist` ,`ip_list` ,`link` ,`ptclist` ,`reptads` ,`settings` ,`short_link` ;");
-
 $mysqli->query("
 CREATE TABLE IF NOT EXISTS `address_list` (
 `id` int(32) NOT NULL auto_increment,
@@ -14,25 +12,22 @@ CREATE TABLE IF NOT EXISTS `address_list` (
 KEY `id` (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 ");
-
 $mysqli->query("
 CREATE TABLE IF NOT EXISTS `banners` (
 `fnum` int(10) NOT NULL auto_increment,
 `fbanercode` text NOT NULL,
 `websitename` varchar(250) NOT NULL,
 `bannersize` varchar(10) NOT NULL,
+`secucode` varchar(50) NOT NULL
 KEY `fnum` (`fnum`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 ");
-
 $mysqli->query("
 CREATE TABLE IF NOT EXISTS `failure` (
 `address` varchar(60) NOT NULL,
 `ip_address` varchar(20) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 ");
-
-
 $mysqli->query("
 CREATE TABLE IF NOT EXISTS `fauclist` (
 `fauid` int(22) NOT NULL auto_increment,
@@ -47,7 +42,6 @@ CREATE TABLE IF NOT EXISTS `fauclist` (
 KEY `fauid` (`fauid`)    
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 ");
-
 $mysqli->query("
 CREATE TABLE IF NOT EXISTS `ip_list` (
 `id` int(32) NOT NULL auto_increment,
@@ -61,17 +55,16 @@ CREATE TABLE IF NOT EXISTS `ip_list` (
 KEY `id` (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 ");
-
 $mysqli->query("
 CREATE TABLE IF NOT EXISTS `link` (
 `address` varchar(50) NOT NULL,
+`token` varchar(200) NOT NULL,
 `sec_key` varchar(50) NOT NULL,
 `time_created` varchar(20) NOT NULL,
 `currency` varchar(10) NOT NULL,
 `reward` varchar(20) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 ");
-
 $mysqli->query("
 CREATE TABLE IF NOT EXISTS `ptclist` (
 `ptcid` int(22) NOT NULL auto_increment,
@@ -87,7 +80,6 @@ CREATE TABLE IF NOT EXISTS `ptclist` (
 KEY `ptcid` (`ptcid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 ");
-
 $mysqli->query("
 CREATE TABLE IF NOT EXISTS `reptads` (
 `repid` int(10) NOT NULL auto_increment,
@@ -96,7 +88,6 @@ CREATE TABLE IF NOT EXISTS `reptads` (
 KEY `repid` (`repid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 ");
-
 $mysqli->query("
 INSERT INTO `reptads` (`repid`, `repads`, `numberr`) VALUES
 (1, '120x90', '0'),
@@ -110,8 +101,8 @@ INSERT INTO `reptads` (`repid`, `repads`, `numberr`) VALUES
 (9, '200x90', '0'),
 (10, '200x200', '0'),
 (11, '234x60', '0'),
-(12, '240x400', '3'),
-(13, '250x250', '5'),
+(12, '240x400', '0'),
+(13, '250x250', '0'),
 (14, '300x250', '0'),
 (15, '320x50', '0'),
 (16, '336x280', '0'),
@@ -121,7 +112,6 @@ INSERT INTO `reptads` (`repid`, `repads`, `numberr`) VALUES
 (20, '728x90', '0'),
 (21, '990x90', '0');
 ");
-
 $mysqli->query("
 CREATE TABLE IF NOT EXISTS `settings` (
 `id` int(32) NOT NULL auto_increment,
@@ -130,7 +120,6 @@ CREATE TABLE IF NOT EXISTS `settings` (
 KEY `id` (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 ");
-
 $mysqli->query("
 INSERT INTO `settings` (`id`, `name`, `value`) VALUES
 (1, 'Tital Name', 'BTC Earn Daily'),
@@ -171,17 +160,15 @@ INSERT INTO `settings` (`id`, `name`, `value`) VALUES
 (36, 'Meta Keywords', 'Claim free satoshi every minute'),
 (37, 'None detected', 'http://whatismyipaddress.com/ip/');
 ");
-
 $mysqli->query("
 CREATE TABLE IF NOT EXISTS `short_link` (
 `id` int(32) NOT NULL auto_increment,
 `short_link` text NOT NULL,
 `click` varchar(5) NOT NULL,
 `dandi` varchar(5) NOT NULL,
+`secucode` varchar(50) NOT NULL
 KEY `id` (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 ");
-
 echo "<h1>Please delete me :)</h1>";
-
 ?>
