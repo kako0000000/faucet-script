@@ -36,6 +36,8 @@ $claimwtime = $mysqli->query("SELECT * FROM settings WHERE id = '10'")->fetch_ob
 $time = time()+$claimwtime*60;
 $mysqli->query("UPDATE ip_list SET last_claim = '$time' WHERE ip_address = '$ip'");
 $mysqli->query("DELETE FROM failure WHERE address = '$address' AND ip_address = '$ip'");
+$strtime = time();
+$mysqli->query("INSERT INTO drawrecord (id, address, dtime, satoshi) VALUES ('', '$address', '$strtime', '$reward')");
 if (isset($_COOKIE['r'])) {
 $ref = $mysqli->real_escape_string($_COOKIE['r']);
 if ($ref == $address) {
@@ -87,6 +89,8 @@ $claimwtime = $mysqli->query("SELECT * FROM settings WHERE id = '10'")->fetch_ob
 $time = time()+$claimwtime*60;
 $mysqli->query("UPDATE ip_list SET last_claim = '$time' WHERE ip_address = '$ip'");
 $mysqli->query("DELETE FROM failure WHERE address = '$address' AND ip_address = '$ip'");
+$strtime = time();
+$mysqli->query("INSERT INTO drawrecord (id, address, dtime, satoshi) VALUES ('', '$address', '$strtime', '$reward')");
 if (isset($_COOKIE['r'])) {
 $ref = $mysqli->real_escape_string($_COOKIE['r']);
 if ($ref == $address) {
@@ -135,6 +139,8 @@ $claimwtime = $mysqli->query("SELECT * FROM settings WHERE id = '10'")->fetch_ob
 $time = time()+$claimwtime*60;
 $mysqli->query("UPDATE ip_list SET last_claim = '$time' WHERE ip_address = '$ip'");
 $mysqli->query("DELETE FROM failure WHERE address = '$address' AND ip_address = '$ip'");
+$strtime = time();
+$mysqli->query("INSERT INTO drawrecord (id, address, dtime, satoshi) VALUES ('', '$address', '$strtime', '$reward')");
 if (isset($_COOKIE['r'])) {
 $ref = $mysqli->real_escape_string($_COOKIE['r']);
 if ($ref == $address) {
@@ -183,6 +189,8 @@ $claimwtime = $mysqli->query("SELECT * FROM settings WHERE id = '10'")->fetch_ob
 $time = time()+$claimwtime*60;
 $mysqli->query("UPDATE ip_list SET last_claim = '$time' WHERE ip_address = '$ip'");
 $mysqli->query("DELETE FROM failure WHERE address = '$address' AND ip_address = '$ip'");
+$strtime = time();
+$mysqli->query("INSERT INTO drawrecord (id, address, dtime, satoshi) VALUES ('', '$address', '$strtime', '$reward')");
 if (isset($_COOKIE['r'])) {
 $ref = $mysqli->real_escape_string($_COOKIE['r']);
 if ($ref == $address) {
