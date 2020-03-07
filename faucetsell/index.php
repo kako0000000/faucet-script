@@ -968,6 +968,40 @@ echo $myrowban728x902["fbanercode"];
 ?>
 </td>
 </tr>
+ <tr>
+<td>
+<div class="clearfixa">
+<div class="bodyc">
+<div class="member">
+<div class="cover">
+Recent Payouts
+</div>
+<div class="coverbody">
+<table border="0" width="100%">
+<tr><td><h3>Date</h3></td><td><h3>Address</h3></td><td><h3>Reward</h3></td></tr>
+<?php
+$checkfaul = mysqli_query($mysqli, "Select * from drawrecord");
+$totalfaul = mysqli_num_rows($checkfaul);
+$checkfaul = mysqli_query($mysqli, "Select * from drawrecord ORDER BY dtime DESC LIMIT 10");
+while($myrowfaul = mysqli_fetch_array($checkfaul)){
+?>
+<tr><td><?php echo 
+date("d-m-Y h:i:sa", $myrowfaul["dtime"]);; ?></td>
+<td><?php echo $myrowfaul["address"]; ?></td>
+<td><?php echo $myrowfaul["satoshi"]; ?> satoshi</td></tr>
+<?php
+}
+if ($totalfaul > "10"){
+$checkfaul = mysqli_query($mysqli, "Select * from drawrecord ORDER BY dtime DESC LIMIT 10,$totalfaul");
+while($myrowfaul = mysqli_fetch_array($checkfaul)){
+$id = $myrowfaul["id"];
+mysqli_query($mysqli, "DELETE FROM drawrecord WHERE id=$id");
+}}
+?>
+</table>
+</div></div></div></div>
+</td>
+</tr>
 <tr>
 <td>
 <div class="clearfixa">
