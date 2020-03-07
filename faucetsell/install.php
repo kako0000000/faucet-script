@@ -13,6 +13,15 @@ KEY `id` (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 ");
 $mysqli->query("
+CREATE TABLE IF NOT EXISTS `drawrecord` (
+`id` int(32) NOT NULL AUTO_INCREMENT,
+`address` varchar(50) NOT NULL,
+`dtime` varchar(20) NOT NULL,
+`satoshi` varchar(20) NOT NULL,
+KEY `id` (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+");
+$mysqli->query("
 CREATE TABLE IF NOT EXISTS `banners` (
 `fnum` int(10) NOT NULL auto_increment,
 `fbanercode` text NOT NULL,
