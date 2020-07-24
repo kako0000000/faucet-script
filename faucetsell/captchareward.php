@@ -10,13 +10,11 @@ $response = json_decode($response, true);
 if($response["success"] === true) {
 include_once("reward.php");
 }else{
-$mysqli->query("INSERT INTO failure (address, ip_address) VALUES ('$address', '$ip')");
 $error = 'You are a robot';
 }}elseif ($captchasystem == "Solvemedia"){
 require_once("libs/solvemedialib.php");
 $solvemedia_response = solvemedia_check_answer($privkey,$_SERVER["REMOTE_ADDR"],$_POST["adcopy_challenge"],$_POST["adcopy_response"],$hashkey);
 if (!$solvemedia_response->is_valid) {
-$mysqli->query("INSERT INTO failure (address, ip_address) VALUES ('$address', '$ip')");
 $error = ucwords($solvemedia_response->error);
 unset($_COOKIE['scode']);
 }else{
@@ -30,7 +28,6 @@ $responseData = json_decode($verifyResponse);
 if($responseData->success){
 include_once("reward.php");
 }else{
-$mysqli->query("INSERT INTO failure (address, ip_address) VALUES ('$address', '$ip')");
 $error = 'hCaptcha verification failed. Please try again.';
 }}else{
 $error = 'Please click on the hCaptcha button.';
