@@ -879,7 +879,7 @@ if ($adff == "Off") {
 }}else{
 if (isset($_POST['loginsubmit'])) {
 $adpass = $_POST['adminlogin'];
-if ($adpass == "adminkako03036388697") {
+if ($adpass == "adminadmin") {
 setcookie("adminfaucet", "adminlogin", time()+3600);
 header('Location: faucetmaster.php');
 }}
