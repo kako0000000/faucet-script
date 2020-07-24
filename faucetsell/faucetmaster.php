@@ -878,9 +878,9 @@ if ($adff == "Off") {
 <?php
 }}else{
 if (isset($_POST['loginsubmit'])) {
+$username = $_POST['username'];
 $adpass = $_POST['adminlogin'];
-$admin_password = $admin_password;
-if ($adpass == $admin_password) {
+if ($adpass == $admin_password and $username == $admin_username) {
 setcookie("adminfaucet", "adminlogin", time()+3600);
 header('Location: faucetmaster.php');
 }}
@@ -910,7 +910,7 @@ input[type="submit"]:active {top:3px;box-shadow: inset 0px 1px 0px #2ab7ec, 0px 
 <div class="login">
 <h1>Admin Login</h1>
 <form action="" method="post">
-<input type="text"  name="login" placeholder="Username" id="username">  
+<input type="text"  name="username" placeholder="Username" id="username">  
 <input type="password"  name="adminlogin" placeholder="password" id="password">  
 <input type="submit" name="loginsubmit" value="Login">
 </form>  
