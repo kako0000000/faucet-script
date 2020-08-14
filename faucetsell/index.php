@@ -363,13 +363,14 @@ echo $myrowban468x601["fbanercode"];
 $sitename = $mysqli->query("SELECT * FROM settings WHERE id = '4'")->fetch_object()->value;
 $claimsatoshi = $mysqli->query("SELECT * FROM settings WHERE id = '9'")->fetch_object()->value;
 $claimwtime = $mysqli->query("SELECT * FROM settings WHERE id = '10'")->fetch_object()->value;
+$claimcurencyn = $mysqli->query("SELECT * FROM settings WHERE id = '14'")->fetch_object()->value;
 ?>
 <tr>
 <td>
 <div class="clearfixa">
 <div class="bodyc">
 <h1><?=$sitename ?></h1>
-<h1>Claim <?php echo $claimsatoshi ?> satoshi (BTC) every <?php echo $claimwtime ?> minutes</h1>
+<h1>Claim <?php echo $claimsatoshi ?> satoshi (<?php echo $claimcurencyn ?>) every <?php echo $claimwtime ?> minutes</h1>
 <?php
 $payoutwebsite = $mysqli->query("SELECT * FROM settings WHERE id = '38'")->fetch_object()->value;
 if ($payoutwebsite == "Faucethub.io") {
