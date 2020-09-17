@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,7 +26,7 @@ $sitedesrip = $mysqli->query("SELECT * FROM settings WHERE id = '2'")->fetch_obj
 </head>
 <body>
 <?php
-if (isset($_COOKIE['adminfaucet'])) {
+if (isset($_SESSION["adminfaucet"])) { 
 ?>
 <table border="0" width="100%">
 <tr><td><a href="faucetmaster.php">Main Page</a> <a href="faucetmaster.php?op=FaucetHubSetting">Payout API Setting</a> <a href="faucetmaster.php?op=captchasystem">Captcha System</a> <a href="faucetmaster.php?op=ShortLink">Short Link</a> <a href="faucetmaster.php?op=banner">Banner</a> <a href="faucetmaster.php?op=addnfl">Faucet List</a> <a href="faucetmaster.php?op=addptcl">PTC List</a> <a href="faucetmaster.php?op=logout">Logout</a></td></tr>
@@ -881,7 +884,8 @@ if (isset($_POST['loginsubmit'])) {
 $username = $_POST['username'];
 $adpass = $_POST['adminlogin'];
 if ($adpass == $admin_password and $username == $admin_username) {
-setcookie("adminfaucet", "adminlogin", time()+3600);
+$_SESSION["adminfaucet"] = $username;
+$_SESSION["password"] = $adpass;
 header('Location: faucetmaster.php');
 }}
 ?>
