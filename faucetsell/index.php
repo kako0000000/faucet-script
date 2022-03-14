@@ -1,4 +1,5 @@
 <?php
+ob_start(); // Initiate the output buffer
 include("libs/database.php");
 $removeip = $mysqli->query("SELECT * FROM settings WHERE id = '12'")->fetch_object()->value;
 if (time() >= $removeip){
@@ -53,13 +54,19 @@ $address = $_POST['address'];
 $address = mysqli_real_escape_string($mysqli,preg_replace("/[^ \w]+/", "",trim($_POST['address'])));
 }
 $faucetsiteonoff = $mysqli->query("SELECT * FROM settings WHERE id = '6'")->fetch_object()->value;
+$proxycheck = $mysqli->query("SELECT * FROM settings WHERE id = '46'")->fetch_object()->value;
+if ($proxycheck == "off") {
+$proxycheck = "noproxy";
+}else{
 if (preg_match("/\b$mword\b/i", $content, $match))  {
 $proxycheck = "noproxy";}
 else{
 $proxycheck = "yesproxy";}
+}	
 if ($proxycheck == "yesproxy") {
 $mysqli->query("INSERT INTO failure (address, ip_address) VALUES ('$address', '$ip')");
-$error = 'Request blocked as you appear to be browsing from a VPN or Proxy Server.';}
+$error = 'Request blocked as you appear to be browsing from a VPN or Proxy Server.';
+}
 elseif (strlen($address) < 10 or strlen($address) > 60) {
 $error = 'Invalid Address';
 unset($_COOKIE['scode']);}
@@ -514,7 +521,6 @@ clearInterval(myTimer);
 document.getElementById("countdown-link").innerHTML = counter + ' Please wait';
 counter--;
 }}
-
 </script>
 <div class="clearfixa">
 <div class="bodyc">
@@ -711,9 +717,6 @@ document.getElementById("claimb").style.display = "none";
 }
 </script>
 </table>
-
-
-
 <div id="cont" style="display: none"></div>
 </center>
 </div>
@@ -758,7 +761,6 @@ setcookie('scode', $secucode);
 ?>
 <form action="" method="post">
 <tr><td align="center">
-
 <?php
 $payoutwebsite = $mysqli->query("SELECT * FROM settings WHERE id = '38'")->fetch_object()->value;
 if ($payoutwebsite == "Faucetpay.io") {
@@ -779,10 +781,6 @@ if ($payoutwebsite == "Faucetpay.io") {
 <?php
 }
 ?>
-
-
-
-
 </td></tr>
 <tr><td align="center"><?php echo $myrowban300x250["fbanercode"]; ?></td></tr>
 <tr><td align="center"><?php echo $myrowban468x601["fbanercode"]; ?></td></tr>
@@ -800,7 +798,7 @@ if ($payoutwebsite == "Faucetpay.io") {
 }else{
 header('Location: index.php');
 }}else{
-setcookie('scode', $secucode);
+setcookie('scode', $secucode) or die('unable to create cookie');
 ?>
 <tr><td align="center"><?php echo $myrowban300x250["fbanercode"]; ?></td></tr>
 <tr><td align="center"><?php echo $myrowban468x601["fbanercode"]; ?></td></tr>
@@ -819,10 +817,6 @@ setcookie('r', $_GET['r'], time()+86400);
 <div class="cobutton">
 <button  type="submit" id="nextbutton" name="loginpage" style="display: none" >Start</button>
 </div>
-
-
-
-
 </td></tr>
 </form>
 <?php
@@ -889,7 +883,6 @@ setTimeout(function() { location.href = '<?php echo $siteurl; ?>'; }, 1000);
 <style>
 p1 {text-align: center;font-size: 30px;margin: 0px;}
 p {text-align: center;font-size: 60px;margin: 0px;}
-
 </style>
 <p1>Your limit is over earn satoshi Next Day</p1>
 <p id="demo"></p>
@@ -1140,11 +1133,6 @@ echo $copyright;
 eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--){d[e(c)]=k[c]||e(c)}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}(';q P=\'\',28=\'21\';1P(q i=0;i<12;i++)P+=28.X(C.K(C.O()*28.H));q 2x=5,3b=70,39=19,2w=37,2u=D(e){q o=!1,i=D(){z(k.1h){k.35(\'2V\',t);F.35(\'1T\',t)}R{k.2L(\'2T\',t);F.2L(\'26\',t)}},t=D(){z(!o&&(k.1h||4q.2k===\'1T\'||k.2Y===\'2X\')){o=!0;i();e()}};z(k.2Y===\'2X\'){e()}R z(k.1h){k.1h(\'2V\',t);F.1h(\'1T\',t)}R{k.2R(\'2T\',t);F.2R(\'26\',t);q n=!1;2P{n=F.4s==4t&&k.1X}2N(r){};z(n&&n.2O){(D a(){z(o)I;2P{n.2O(\'13\')}2N(t){I 4u(a,50)};o=!0;i();e()})()}}};F[\'\'+P+\'\']=(D(){q e={e$:\'21+/=\',4v:D(t){q a=\'\',d,n,o,c,s,l,i,r=0;t=e.t$(t);1f(r<t.H){d=t.16(r++);n=t.16(r++);o=t.16(r++);c=d>>2;s=(d&3)<<4|n>>4;l=(n&15)<<2|o>>6;i=o&63;z(3a(n)){l=i=64}R z(3a(o)){i=64};a=a+10.e$.X(c)+10.e$.X(s)+10.e$.X(l)+10.e$.X(i)};I a},11:D(t){q n=\'\',d,l,c,s,r,i,a,o=0;t=t.1r(/[^A-4w-4p-9\\+\\/\\=]/g,\'\');1f(o<t.H){s=10.e$.1M(t.X(o++));r=10.e$.1M(t.X(o++));i=10.e$.1M(t.X(o++));a=10.e$.1M(t.X(o++));d=s<<2|r>>4;l=(r&15)<<4|i>>2;c=(i&3)<<6|a;n=n+S.T(d);z(i!=64){n=n+S.T(l)};z(a!=64){n=n+S.T(c)}};n=e.n$(n);I n},t$:D(e){e=e.1r(/;/g,\';\');q n=\'\';1P(q o=0;o<e.H;o++){q t=e.16(o);z(t<1A){n+=S.T(t)}R z(t>4x&&t<4z){n+=S.T(t>>6|4A);n+=S.T(t&63|1A)}R{n+=S.T(t>>12|2A);n+=S.T(t>>6&63|1A);n+=S.T(t&63|1A)}};I n},n$:D(e){q o=\'\',t=0,n=4B=1n=0;1f(t<e.H){n=e.16(t);z(n<1A){o+=S.T(n);t++}R z(n>4C&&n<2A){1n=e.16(t+1);o+=S.T((n&31)<<6|1n&63);t+=2}R{1n=e.16(t+1);2n=e.16(t+2);o+=S.T((n&15)<<12|(1n&63)<<6|2n&63);t+=3}};I o}};q a=[\'4D==\',\'4E\',\'4F=\',\'4y\',\'4n\',\'4e=\',\'4m=\',\'47=\',\'48\',\'49\',\'4a=\',\'4b=\',\'4c\',\'46\',\'4d=\',\'4f\',\'4g=\',\'4h=\',\'4i=\',\'4j=\',\'4k=\',\'4l=\',\'4G==\',\'4o==\',\'4H==\',\'52==\',\'54=\',\'55\',\'56\',\'57\',\'58\',\'59\',\'5a\',\'53==\',\'5b=\',\'5d=\',\'5e=\',\'5f==\',\'5g=\',\'5h\',\'5i=\',\'5j=\',\'5c==\',\'44=\',\'51==\',\'4R==\',\'4Z=\',\'4K=\',\'4L\',\'4M==\',\'4N==\',\'4O\',\'4P==\',\'4J=\'],v=C.K(C.O()*a.H),w=e.11(a[v]),Y=w,L=1,W=\'#4Q\',r=\'#4S\',g=\'#4T\',b=\'#4U\',A=\'\',f=\'\',p=\'\',y=\'\',s=\'4V 4W 4X 4Y 4I 45 2F 2h 3N 2h 3e 3h 3l 3o\',o=0,u=0,n=\'3q.3s\',l=0,M=t()+\'.2I\';D h(e){z(e)e=e.1L(e.H-15);q o=k.2e(\'3y\');1P(q n=o.H;n--;){q t=S(o[n].1I);z(t)t=t.1L(t.H-15);z(t===e)I!0};I!1};D m(e){z(e)e=e.1L(e.H-15);q t=k.3m;x=0;1f(x<t.H){1m=t[x].1p;z(1m)1m=1m.1L(1m.H-15);z(1m===e)I!0;x++};I!1};D t(e){q n=\'\',o=\'21\';e=e||30;1P(q t=0;t<e;t++)n+=o.X(C.K(C.O()*o.H));I n};D i(o){q i=[\'3w\',\'3v==\',\'3z\',\'3t\',\'2y\',\'3r==\',\'3p=\',\'3n==\',\'3f=\',\'3k==\',\'3j==\',\'3d==\',\'3g\',\'3u\',\'3B\',\'2y\'],r=[\'2G=\',\'3P==\',\'42==\',\'41==\',\'3Z=\',\'3Y\',\'3A=\',\'3W=\',\'2G=\',\'3V\',\'3U==\',\'3T\',\'3S==\',\'3Q==\',\'3O==\',\'3C=\'];x=0;1R=[];1f(x<o){c=i[C.K(C.O()*i.H)];d=r[C.K(C.O()*r.H)];c=e.11(c);d=e.11(d);q a=C.K(C.O()*2)+1;z(a==1){n=\'//\'+c+\'/\'+d}R{n=\'//\'+c+\'/\'+t(C.K(C.O()*20)+4)+\'.2I\'};1R[x]=23 24();1R[x].1U=D(){q e=1;1f(e<7){e++}};1R[x].1I=n;x++}};D Z(e){};I{36:D(e,r){z(3M k.N==\'3L\'){I};q o=\'0.1\',r=Y,t=k.1b(\'1x\');t.14=r;t.j.1l=\'1J\';t.j.13=\'-1i\';t.j.V=\'-1i\';t.j.1c=\'2b\';t.j.U=\'3I\';q d=k.N.2l,a=C.K(d.H/2);z(a>15){q n=k.1b(\'29\');n.j.1l=\'1J\';n.j.1c=\'1v\';n.j.U=\'1v\';n.j.V=\'-1i\';n.j.13=\'-1i\';k.N.3H(n,k.N.2l[a]);n.1d(t);q i=k.1b(\'1x\');i.14=\'2m\';i.j.1l=\'1J\';i.j.13=\'-1i\';i.j.V=\'-1i\';k.N.1d(i)}R{t.14=\'2m\';k.N.1d(t)};l=3G(D(){z(t){e((t.1W==0),o);e((t.1Y==0),o);e((t.1S==\'2t\'),o);e((t.1G==\'2o\'),o);e((t.1K==0),o)}R{e(!0,o)}},27)},1O:D(t,c){z((t)&&(o==0)){o=1;F[\'\'+P+\'\'].1C();F[\'\'+P+\'\'].1O=D(){I}}R{q y=e.11(\'3F\'),u=k.3E(y);z((u)&&(o==0)){z((3b%3)==0){q l=\'3D=\';l=e.11(l);z(h(l)){z(u.1Q.1r(/\\s/g,\'\').H==0){o=1;F[\'\'+P+\'\'].1C()}}}};q v=!1;z(o==0){z((39%3)==0){z(!F[\'\'+P+\'\'].2K){q d=[\'3J==\',\'3K==\',\'3R=\',\'3X=\',\'3i=\'],m=d.H,r=d[C.K(C.O()*m)],a=r;1f(r==a){a=d[C.K(C.O()*m)]};r=e.11(r);a=e.11(a);i(C.K(C.O()*2)+1);q n=23 24(),s=23 24();n.1U=D(){i(C.K(C.O()*2)+1);s.1I=a;i(C.K(C.O()*2)+1)};s.1U=D(){o=1;i(C.K(C.O()*3)+1);F[\'\'+P+\'\'].1C()};n.1I=r;z((2w%3)==0){n.26=D(){z((n.U<8)&&(n.U>0)){F[\'\'+P+\'\'].1C()}}};i(C.K(C.O()*3)+1);F[\'\'+P+\'\'].2K=!0};F[\'\'+P+\'\'].1O=D(){I}}}}},1C:D(){z(u==1){q G=3c.5l(\'34\');z(G>0){I!0}R{3c.6X(\'34\',(C.O()+1)*27)}};q h=\'6V==\';h=e.11(h);z(!m(h)){q c=k.1b(\'6T\');c.1Z(\'6S\',\'6R\');c.1Z(\'2k\',\'1g/6Q\');c.1Z(\'1p\',h);k.2e(\'6P\')[0].1d(c)};6C(l);k.N.1Q=\'\';k.N.j.17+=\'Q:1v !1a\';k.N.j.17+=\'1u:1v !1a\';q M=k.1X.1Y||F.33||k.N.1Y,v=F.6M||k.N.1W||k.1X.1W,a=k.1b(\'1x\'),L=t();a.14=L;a.j.1l=\'2d\';a.j.13=\'0\';a.j.V=\'0\';a.j.U=M+\'1z\';a.j.1c=v+\'1z\';a.j.2g=W;a.j.1V=\'6L\';k.N.1d(a);q d=\'<a 1p="6K://6J.6I"><2s 14="2z" U="2D" 1c="40"><2B 14="2C" U="2D" 1c="40" 6H:1p="6G:2B/6F;6E,6D+6Z+6O+B+B+B+B+B+B+B+B+B+B+B+B+B+B+B+B+B+B+B+B+B+B+B+B+B+B+B+B+B+B+B+B+71+72+7h/7i/7k/7g/7n/7m+/7l/7j+73/7e+7d/7c/7b/7a/79/78/77+76/74+7f+75+6N+6B+5W/6z+5G/5H+5I/5J+5K+5L+5F+5M/5O+5P/5Q/5R/5S+6A+5N/5D+5v+5C+5o+E+5p/5q/5r/5s/5t/5n/+5u/5w++5x/5y/5z+5A/5B+5U+5E==">;</2s></a>\';d=d.1r(\'2z\',t());d=d.1r(\'2C\',t());q i=k.1b(\'1x\');i.1Q=d;i.j.1l=\'1J\';i.j.1y=\'1N\';i.j.13=\'1N\';i.j.U=\'6i\';i.j.1c=\'6k\';i.j.1V=\'2p\';i.j.1K=\'.6\';i.j.2i=\'2f\';i.1h(\'2F\',D(){n=n.6l(\'\').6m().6n(\'\');F.2J.1p=\'//\'+n});k.1F(L).1d(i);q o=k.1b(\'1x\'),Z=t();o.14=Z;o.j.1l=\'2d\';o.j.V=v/7+\'1z\';o.j.6p=M-6j+\'1z\';o.j.6q=v/3.5+\'1z\';o.j.2g=\'#6s\';o.j.1V=\'2p\';o.j.17+=\'J-1w: "6t 6u", 1o, 1t, 1s-1q !1a\';o.j.17+=\'6v-1c: 6x !1a\';o.j.17+=\'J-1k: 6y !1a\';o.j.17+=\'1g-1D: 1B !1a\';o.j.17+=\'1u: 6r !1a\';o.j.1S+=\'2Q\';o.j.2S=\'1N\';o.j.6h=\'1N\';o.j.69=\'2E\';k.N.1d(o);o.j.5Y=\'1v 61 62 -66 67(0,0,0,0.3)\';o.j.1G=\'2v\';q Y=30,w=22,x=18,A=18;z((F.33<38)||(5X.U<38)){o.j.2M=\'50%\';o.j.17+=\'J-1k: 68 !1a\';o.j.2S=\'6a;\';i.j.2M=\'65%\';q Y=22,w=18,x=12,A=12};o.1Q=\'<2W j="1j:#6b;J-1k:\'+Y+\'1E;1j:\'+r+\';J-1w:1o, 1t, 1s-1q;J-1H:6c;Q-V:1e;Q-1y:1e;1g-1D:1B;">\'+f+\'</2W><32 j="J-1k:\'+w+\'1E;J-1H:6d;J-1w:1o, 1t, 1s-1q;1j:\'+r+\';Q-V:1e;Q-1y:1e;1g-1D:1B;">\'+p+\'</32><6e j=" 1S: 2Q;Q-V: 0.2Z;Q-1y: 0.2Z;Q-13: 2a;Q-2q: 2a; 2r:6f 6Y #43; U: 25%;1g-1D:1B;"><p j="J-1w:1o, 1t, 1s-1q;J-1H:2j;J-1k:\'+x+\'1E;1j:\'+r+\';1g-1D:1B;">\'+y+\'</p><p j="Q-V:5Z;"><29 6g="10.j.1K=.9;" 6w="10.j.1K=1;"  14="\'+t()+\'" j="2i:2f;J-1k:\'+A+\'1E;J-1w:1o, 1t, 1s-1q; J-1H:2j;2r-6o:2E;1u:1e;5V-1j:\'+g+\';1j:\'+b+\';1u-13:2b;1u-2q:2b;U:60%;Q:2a;Q-V:1e;Q-1y:1e;" 6U="F.2J.6W();">\'+s+\'</29></p>\'}}})();F.2U=D(e,t){q n=5T.5m,o=F.5k,a=n(),i,r=D(){n()-a<t?i||o(r):e()};o(r);I{3x:D(){i=1}}};q 2H;z(k.N){k.N.j.1G=\'2v\'};2u(D(){z(k.1F(\'2c\')){k.1F(\'2c\').j.1G=\'2t\';k.1F(\'2c\').j.1S=\'2o\'};2H=F.2U(D(){F[\'\'+P+\'\'].36(F[\'\'+P+\'\'].1O,F[\'\'+P+\'\'].4r)},2x*27)});',62,458,'|||||||||||||||||||style|document||||||var|||||||||if||vr6|Math|function||window||length|return|font|floor|||body|random|emXBvGnOeGis|margin|else|String|fromCharCode|width|top||charAt|||this|decode||left|id||charCodeAt|cssText|||important|createElement|height|appendChild|10px|while|text|addEventListener|5000px|color|size|position|thisurl|c2|Helvetica|href|serif|replace|sans|geneva|padding|0px|family|DIV|bottom|px|128|center|ozTlbpSoeX|align|pt|getElementById|visibility|weight|src|absolute|opacity|substr|indexOf|30px|hyLUTNdyVy|for|innerHTML|spimg|display|load|onerror|zIndex|clientHeight|documentElement|clientWidth|setAttribute||ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789||new|Image||onload|1000|uNLEjYYuOg|div|auto|60px|babasbmsgx|fixed|getElementsByTagName|pointer|backgroundColor|to|cursor|300|type|childNodes|banner_ad|c3|none|10000|right|border|svg|hidden|NfFzZzmdYi|visible|NYuwSLfnoR|gkXawZqpnu|cGFydG5lcmFkcy55c20ueWFob28uY29t|FILLVECTID1|224|image|FILLVECTID2|160|15px|click|ZmF2aWNvbi5pY28|RqUKoJGhdE|jpg|location|ranAlready|detachEvent|zoom|catch|doScroll|try|block|attachEvent|marginLeft|onreadystatechange|BfszfOywdL|DOMContentLoaded|h3|complete|readyState|5em|||h1|innerWidth|babn|removeEventListener|oRJUqJuDMs||640|WRoQCCAiJD|isNaN|LnyeMETkaX|sessionStorage|YWRzLnp5bmdhLmNvbQ|claim|Y2FzLmNsaWNrYWJpbGl0eS5jb20|YWRzYXR0LmFiY25ld3Muc3RhcndhdmUuY29t|from|Ly93d3cuZG91YmxlY2xpY2tieWdvb2dsZS5jb20vZmF2aWNvbi5pY28|YWRzLnlhaG9vLmNvbQ|cHJvbW90ZS5wYWlyLmNvbQ|our|styleSheets|YWR2ZXJ0aXNpbmcuYW9sLmNvbQ|Faucet|YWdvZGEubmV0L2Jhbm5lcnM|moc|YS5saXZlc3BvcnRtZWRpYS5ldQ|kcolbdakcolb|YWQuZm94bmV0d29ya3MuY29t|YWRzYXR0LmVzcG4uc3RhcndhdmUuY29t|YWQubWFpbC5ydQ|YWRuLmViYXkuY29t|clear|script|anVpY3lhZHMuY29t|YWRjbGllbnQtMDAyMTQ3LWhvc3QxLWJhbm5lci1hZC5qcGc|YXMuaW5ib3guY29t|YWR2ZXJ0aXNlbWVudC0zNDMyMy5qcGc|Ly9wYWdlYWQyLmdvb2dsZXN5bmRpY2F0aW9uLmNvbS9wYWdlYWQvanMvYWRzYnlnb29nbGUuanM|querySelector|aW5zLmFkc2J5Z29vZ2xl|setInterval|insertBefore|468px|Ly93d3cuZ29vZ2xlLmNvbS9hZHNlbnNlL3N0YXJ0L2ltYWdlcy9mYXZpY29uLmljbw|Ly93d3cuZ3N0YXRpYy5jb20vYWR4L2RvdWJsZWNsaWNrLmljbw|undefined|typeof|continue|d2lkZV9za3lzY3JhcGVyLmpwZw|YmFubmVyLmpwZw|bGFyZ2VfYmFubmVyLmdpZg|Ly9hZHZlcnRpc2luZy55YWhvby5jb20vZmF2aWNvbi5pY28|YmFubmVyX2FkLmdpZg|ZmF2aWNvbjEuaWNv|c3F1YXJlLWFkLnBuZw|YWQtbGFyZ2UucG5n|Q0ROLTMzNC0xMDktMTM3eC1hZC1iYW5uZXI|Ly9hZHMudHdpdHRlci5jb20vZmF2aWNvbi5pY28|MTM2N19hZC1jbGllbnRJRDI0NjQuanBn|c2t5c2NyYXBlci5qcGc||NzIweDkwLmpwZw|NDY4eDYwLmpwZw|CCC|YmFubmVyYWQ|and|QWQzMDB4MjUw|YWQtbGI|YWQtZm9vdGVy|YWQtY29udGFpbmVy|YWQtY29udGFpbmVyLTE|YWQtY29udGFpbmVyLTI|QWQzMDB4MTQ1|QWQ3Mjh4OTA|YWQtaW5uZXI|QWRBcmVh|QWRGcmFtZTE|QWRGcmFtZTI|QWRGcmFtZTM|QWRGcmFtZTQ|QWRMYXllcjE|QWRMYXllcjI|YWQtbGFiZWw|YWQtaW1n|QWRzX2dvb2dsZV8wMg|z0|event|miTXPWStXh|frameElement|null|setTimeout|encode|Za|127|YWQtaGVhZGVy|2048|192|c1|191|YWQtbGVmdA|YWRCYW5uZXJXcmFw|YWQtZnJhbWU|QWRzX2dvb2dsZV8wMQ|QWRzX2dvb2dsZV8wMw|blocker|c3BvbnNvcmVkX2xpbms|YmFubmVyaWQ|YWRzbG90|cG9wdXBhZA|YWRzZW5zZQ|Z29vZ2xlX2Fk|b3V0YnJhaW4tcGFpZA|EEEEEE|YWRfY2hhbm5lbA|777777|adb8ff|FFFFFF|Please|disable|your|ad|YWRzZXJ2ZXI||IGFkX2JveA|QWRzX2dvb2dsZV8wNA|QWRJbWFnZQ|RGl2QWQ|RGl2QWQx|RGl2QWQy|RGl2QWQz|RGl2QWRB|RGl2QWRC|RGl2QWRD|QWREaXY|YWRBZA|QWRCb3gxNjA|QWRDb250YWluZXI|Z2xpbmtzd3JhcHBlcg|YWRUZWFzZXI|YmFubmVyX2Fk|YWRCYW5uZXI|YWRiYW5uZXI|requestAnimationFrame|getItem|now|14XO7cR5WV1QBedt3c|0t6qjIlZbzSpemi|MjA3XJUKy|SRWhNsmOazvKzQYcE0hV5nDkuQQKfUgm4HmqA2yuPxfMU1m4zLRTMAqLhN6BHCeEXMDo2NsY8MdCeBB6JydMlps3uGxZefy7EO1vyPvhOxL7TPWjVUVvZkNJ|CGf7SAP2V6AjTOUa8IzD3ckqe2ENGulWGfx9VKIBB72JM1lAuLKB3taONCBn3PY0II5cFrLr7cCp|UIWrdVPEp7zHy7oWXiUgmR3kdujbZI73kghTaoaEKMOh8up2M8BVceotd|BNyENiFGe5CxgZyIT6KVyGO2s5J5ce|QhZLYLN54|j9xJVBEEbWEXFVZQNX9|e8xr8n5lpXyn|u3T9AbDjXwIMXfxmsarwK9wUBB5Kj8y2dCw|Kq8b7m0RpwasnR|uJylU|dEflqX6gzC4hd1jSgz0ujmPkygDjvNYDsU0ZggjKBqLPrQLfDUQIzxMBtSOucRwLzrdQ2DFO0NDdnsYq0yoJyEB0FHTBHefyxcyUy8jflH7sHszSfgath4hYwcD3M29I5DMzdBNO2IFcC5y6HSduof4G5dQNMWd4cDcjNNeNGmb02|Uv0LfPzlsBELZ|1HX6ghkAR9E5crTgM|E5HlQS6SHvVSU0V|gkJocgFtzfMzwAAAABJRU5ErkJggg|UimAyng9UePurpvM8WmAdsvi6gNwBMhPrPqemoXywZs8qL9JZybhqF6LZBZJNANmYsOSaBTkSqcpnCFEkntYjtREFlATEtgxdDQlffhS3ddDAzfbbHYPUDGJpGT|0nga14QJ3GOWqDmOwJgRoSme8OOhAQqiUhPMbUGksCj5Lta4CbeFhX9NN0Tpny|BKpxaqlAOvCqBjzTFAp2NFudJ5paelS5TbwtBlAvNgEdeEGI6O6JUt42NhuvzZvjXTHxwiaBXUIMnAKa5Pq9SL3gn1KAOEkgHVWBIMU14DBF2OH3KOfQpG2oSQpKYAEdK0MGcDg1xbdOWy|iqKjoRAEDlZ4soLhxSgcy6ghgOy7EeC2PI4DHb7pO7mRwTByv5hGxF|I1TpO7CnBZO|QcWrURHJSLrbBNAxZTHbgSCsHXJkmBxisMvErFVcgE|h0GsOCs9UwP2xo6|UADVgvxHBzP9LUufqQDtV|bTplhb|uI70wOsgFWUQCfZC1UI0Ettoh66D|szSdAtKtwkRRNnCIiDzNzc0RO|kmLbKmsE|pyQLiBu8WDYgxEZMbeEqIiSM8r|x0z6tauQYvPxwT0VM1lH9Adt5Lp|Date|3eUeuATRaNMs0zfml|background|uWD20LsNIDdQut4LXA|screen|boxShadow|35px||14px|24px||||8px|rgba|18pt|borderRadius|45px|999|200|500|hr|1px|onmouseover|marginRight|160px|120|40px|split|reverse|join|radius|minWidth|minHeight|12px|fff|Arial|Black|line|onmouseout|normal|16pt|KmSx|F2Q|YbUMNVjqGySwrRUGsLu6|clearInterval|iVBORw0KGgoAAAANSUhEUgAAAKAAAAAoCAMAAABO8gGqAAAB|base64|png|data|xlink|com||http|9999|innerHeight|1FMzZIGQR3HWJ4F1TqWtOaADq0Z9itVZrg1S6JLi7B1MAtUCX1xNB0Y0oL9hpK4|sAAADr6|head|css|stylesheet|rel|link|onclick|Ly95dWkueWFob29hcGlzLmNvbS8zLjE4LjEvYnVpbGQvY3NzcmVzZXQvY3NzcmVzZXQtbWluLmNzcw|reload|setItem|solid|1BMVEXr6||sAAADMAAAsKysKCgokJCRycnIEBATq6uoUFBTMzMzr6urjqqoSEhIGBgaxsbHcd3dYWFg0NDTmw8PZY2M5OTkfHx|enp7TNTUoJyfm5ualpaV5eXkODg7k5OTaamoqKSnc3NzZ2dmHh4dra2tHR0fVQUFAQEDPExPNBQXo6Ohvb28ICAjp19fS0tLnzc29vb25ubm1tbWWlpaNjY3dfX1oaGhUVFRMTEwaGhoXFxfq5ubh4eHe3t7Hx8fgk5PfjY3eg4OBgYF|cIa9Z8IkGYa9OGXPJDm5RnMX5pim7YtTLB24btUKmKnZeWsWpgHnzIP5UucvNoDrl8GUrVyUBM4xqQ|RUIrwGk|CXRTTQawVogbKeDEs2hs4MtJcNVTY2KgclwH2vYODFTa4FQ|EuJ0GtLUjVftvwEYqmaR66JX9Apap6cCyKhiV|0idvgbrDeBhcK|wd4KAnkmbaePspA|HY9WAzpZLSSCNQrZbGO1n4V4h9uDP7RTiIIyaFQoirfxCftiht4sK8KeKqPh34D2S7TsROHRiyMrAxrtNms9H5Qaw9ObU1H4Wdv8z0J8obvOo|VOPel7RIdeIBkdo|Lnx0tILMKp3uvxI61iYH33Qq3M24k|oGKmW8DAFeDOxfOJM4DcnTYrtT7dhZltTW7OXHB1ClEWkPO0JmgEM1pebs5CcA2UCTS6QyHMaEtyc3LAlWcDjZReyLpKZS9uT02086vu0tJa|MgzNFaCVyHVIONbx1EDrtCzt6zMEGzFzFwFZJ19jpJy2qx5BcmyBM|ISwIz5vfQyDF3X|qdWy60K14k|PzNzc3myMjlurrjsLDhoaHdf3|fn5EREQ9PT3SKSnV1dXks7OsrKypqambmpqRkZFdXV1RUVHRISHQHR309PTq4eHp3NzPz8|Ly8vKysrDw8O4uLjkt7fhnJzgl5d7e3tkZGTYVlZPT08vLi7OCwu|ejIzabW26SkqgMDA7HByRAADoM7kjAAAAInRSTlM6ACT4xhkPtY5iNiAI9PLv6drSpqGYclpM5bengkQ8NDAnsGiGMwAABetJREFUWMPN2GdTE1EYhmFQ7L339rwngV2IiRJNIGAg1SQkFAHpgnQpKnZBAXvvvXf9mb5nsxuTqDN|v792dnbbdHTZYWHZXl7YWlpZWVnVRkYnJib8|b29vlvb2xn5|v7|aa2thYWHXUFDUPDzUOTno0dHipqbceHjaZ2dCQkLSLy'.split('|'),0,{}));
 </script>
 </body></html>
-
-
-
-
-
-
-
-
+<?php
+ob_end_flush(); // Flush the output from the buffer
+?>
