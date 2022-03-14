@@ -260,7 +260,8 @@ while($myrowfaul = mysqli_fetch_array($checkfaul)){
 </table>
 <?php
 }}elseif ($opt == "logout") {
-setcookie("adminfaucet", "adminlogin", time()-3600);
+unset($_SESSION['adminfaucet']);
+unset($_SESSION['password']);	
 header('Location: faucetmaster.php');
 }elseif ($opt == "ShortLink") {
 if(!empty($_POST["ShortLinks"])) {
@@ -707,6 +708,7 @@ $antibot = strtolower($_POST["antibot"]);
 $adlf = strtolower($_POST["adlf"]);
 $adrf = strtolower($_POST["adrf"]);
 $adff = strtolower($_POST["adff"]);
+$proxyc = strtolower($_POST["proxyc"]);
 $meta_description = $_POST["meta_description"];
 $meta_keywords = $_POST["meta_keywords"];
 $pdurl = $_POST["pdurl"];
@@ -726,6 +728,7 @@ $mysqli->query("UPDATE settings SET value = '$antibot' WHERE id = '13'");
 $mysqli->query("UPDATE settings SET value = '$adlf' WHERE id = '31'");
 $mysqli->query("UPDATE settings SET value = '$adrf' WHERE id = '32'");
 $mysqli->query("UPDATE settings SET value = '$adff' WHERE id = '33'");
+$mysqli->query("UPDATE settings SET value = '$proxyc' WHERE id = '46'");
 $mysqli->query("UPDATE settings SET value = '$copyright' WHERE id = '34'");
 $mysqli->query("UPDATE settings SET value = '$meta_description' WHERE id = '35'");
 $mysqli->query("UPDATE settings SET value = '$meta_keywords' WHERE id = '36'");
@@ -747,6 +750,7 @@ $antibot = $mysqli->query("SELECT * FROM settings WHERE id = '13'")->fetch_objec
 $adlf = $mysqli->query("SELECT * FROM settings WHERE id = '31'")->fetch_object()->value;
 $adrf = $mysqli->query("SELECT * FROM settings WHERE id = '32'")->fetch_object()->value;
 $adff = $mysqli->query("SELECT * FROM settings WHERE id = '33'")->fetch_object()->value;
+$proxyc = $mysqli->query("SELECT * FROM settings WHERE id = '46'")->fetch_object()->value;
 $copyright = $mysqli->query("SELECT * FROM settings WHERE id = '34'")->fetch_object()->value;
 $metadescription = $mysqli->query("SELECT * FROM settings WHERE id = '35'")->fetch_object()->value;
 $metakeywords = $mysqli->query("SELECT * FROM settings WHERE id = '36'")->fetch_object()->value;
@@ -758,6 +762,7 @@ $antibot = ucfirst($antibot);
 $adlf = ucfirst($adlf);
 $adrf = ucfirst($adrf);
 $adff = ucfirst($adff);
+$proxyc = ucfirst($proxyc);
 ?>
 <table class="fautable">
 <tr><td align="left" id="triangled" colspan="7">Website Setting</td></tr>
@@ -856,6 +861,7 @@ if ($adrf == "Off") {
 ?>
 </select>
 </td></tr>
+
 <tr><td>Ad Show Center </td><td>
 <select class="form-control" name="adff">
 <option value="<?php echo $adff; ?>" selected><?php echo $adff; ?></option>
@@ -873,6 +879,22 @@ if ($adff == "Off") {
 </select>
 </td></tr>
 <tr><td align="left" id="triangled" colspan="7">Proxy URL Setting</td></tr>
+<tr><td>Proxy Check Show </td><td>
+<select class="form-control" name="proxyc">
+<option value="<?php echo $proxyc; ?>" selected><?php echo $proxyc; ?></option>
+<?php
+if ($proxyc == "Off") {
+?>
+<option value="on">On</option>
+<?php
+}else{
+?>
+<option value="off">Off</option>
+<?php
+}
+?>
+</select>
+</td></tr>
 <tr><td>Proxy Detected URL </td><td><input type="text" size="50" name="pdurl" class="form-control" value="<?php echo $ipaddressc; ?>" required></td></tr>
 <tr><td>Match Word </td><td><input type="text" name="pdmw" class="form-control" value="<?php echo $mword; ?>" required></td></tr>
 <tr><td colspan="2" align="right"><input type="submit" name="mainpage" value="SAVE" class="myButton"></td></tr>
