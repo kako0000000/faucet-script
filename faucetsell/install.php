@@ -186,7 +186,8 @@ INSERT INTO `settings` (`id`, `name`, `value`) VALUES
 (42, 'microwallet_api', ''),
 (43, 'Blockio_Api_Key', ''),
 (44, 'Blockio_Pin', ''),
-(45, 'Total Paid', '0');
+(45, 'Total Paid', '0'),
+(46, 'Proxy Check', 'off');
 ");
 
 $mysqli->query("
