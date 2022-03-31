@@ -6,7 +6,7 @@ $mysqli->query("DROP TABLE `address_list` ,`banners` , `drawrecord` , `failure` 
 
 $mysqli->query("
 CREATE TABLE IF NOT EXISTS `address_list` (
-  `id` int(32) NOT NULL,
+  `id` int(32) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `address` varchar(75) NOT NULL,
   `referred_by` varchar(75) NOT NULL,
   `last_claim` varchar(32) NOT NULL,
@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS `address_list` (
 
 $mysqli->query("
 CREATE TABLE IF NOT EXISTS `banners` (
-  `fnum` int(10) NOT NULL,
+  `fnum` int(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `fbanercode` text NOT NULL,
   `websitename` varchar(250) NOT NULL,
   `bannersize` varchar(10) NOT NULL,
@@ -32,7 +32,7 @@ INSERT INTO `banners` (`fnum`, `fbanercode`, `websitename`, `bannersize`, `secuc
 ");
 $mysqli->query("
 CREATE TABLE IF NOT EXISTS `drawrecord` (
-  `id` int(32) NOT NULL,
+  `id` int(32) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `address` varchar(50) NOT NULL,
   `dtime` varchar(20) NOT NULL,
   `satoshi` varchar(20) NOT NULL
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `failure` (
 
 $mysqli->query("
 CREATE TABLE IF NOT EXISTS `fauclist` (
-  `fauid` int(22) NOT NULL,
+  `fauid` int(22) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `webname` varchar(100) NOT NULL,
   `secucode` varchar(100) NOT NULL,
   `timers` varchar(10) NOT NULL,
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `fauclist` (
 
 $mysqli->query("
 CREATE TABLE IF NOT EXISTS `ip_list` (
-  `id` int(32) NOT NULL,
+  `id` int(32) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `ip_address` varchar(50) NOT NULL,
   `first_time` varchar(32) NOT NULL,
   `last_claim` varchar(32) NOT NULL,
@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS `link` (
 
 $mysqli->query("
 CREATE TABLE IF NOT EXISTS `ptclist` (
-  `ptcid` int(22) NOT NULL,
+  `ptcid` int(22) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `img` text NOT NULL,
   `refurl` varchar(200) NOT NULL,
   `secucode` varchar(100) NOT NULL,
@@ -101,7 +101,7 @@ CREATE TABLE IF NOT EXISTS `ptclist` (
 
 $mysqli->query("
 CREATE TABLE IF NOT EXISTS `reptads` (
-  `repid` int(10) NOT NULL,
+  `repid` int(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `repads` varchar(20) NOT NULL,
   `numberr` decimal(11,0) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
@@ -134,7 +134,7 @@ INSERT INTO `reptads` (`repid`, `repads`, `numberr`) VALUES
 
 $mysqli->query("
 CREATE TABLE IF NOT EXISTS `settings` (
-  `id` int(32) NOT NULL,
+  `id` int(32) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `name` varchar(50) NOT NULL,
   `value` varchar(255) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
@@ -192,7 +192,7 @@ INSERT INTO `settings` (`id`, `name`, `value`) VALUES
 
 $mysqli->query("
 CREATE TABLE IF NOT EXISTS `short_link` (
-  `id` int(32) NOT NULL,
+  `id` int(32) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `short_link` text NOT NULL,
   `click` varchar(5) NOT NULL,
   `dandi` varchar(5) NOT NULL,
