@@ -74,18 +74,12 @@ $mysqli->query("UPDATE ip_list SET last_claim = '$time' WHERE ip_address = '$ip'
 $mysqli->query("DELETE FROM failure WHERE address = '$address' AND ip_address = '$ip'");
 $strtime = time();
 $mysqli->query("INSERT INTO drawrecord (id, address, dtime, satoshi) VALUES ('', '$address', '$strtime', '$reward')");
-$totalpaid = $mysqli->query("SELECT * FROM settings WHERE id = '45'")->fetch_object()->value;
-$totalpaid = $totalpaid+$reward;
-$mysqli->query("UPDATE settings SET value = '$totalpaid' WHERE id = '45'");
 if (isset($_COOKIE['r'])) {
 $ref = $mysqli->real_escape_string($_COOKIE['r']);
 if ($ref == $address) {
 $referral_comission = $mysqli->query("SELECT * FROM settings WHERE id = '11'")->fetch_object()->value;
 $amt = $reward/100*$referral_comission;
 $faucethub->sendReferralEarnings($ref, $amt, $ip);
-$totalpaid = $mysqli->query("SELECT * FROM settings WHERE id = '45'")->fetch_object()->value;
-$totalpaid = $totalpaid+$amt;
-$mysqli->query("UPDATE settings SET value = '$totalpaid' WHERE id = '45'");
 }
 unset($_COOKIE['r']);
 }
@@ -132,18 +126,12 @@ $mysqli->query("UPDATE ip_list SET last_claim = '$time' WHERE ip_address = '$ip'
 $mysqli->query("DELETE FROM failure WHERE address = '$address' AND ip_address = '$ip'");
 $strtime = time();
 $mysqli->query("INSERT INTO drawrecord (id, address, dtime, satoshi) VALUES ('', '$address', '$strtime', '$reward')");
-$totalpaid = $mysqli->query("SELECT * FROM settings WHERE id = '45'")->fetch_object()->value;
-$totalpaid = $totalpaid+$reward;
-$mysqli->query("UPDATE settings SET value = '$totalpaid' WHERE id = '45'");
 if (isset($_COOKIE['r'])) {
 $ref = $mysqli->real_escape_string($_COOKIE['r']);
 if ($ref == $address) {
 $referral_comission = $mysqli->query("SELECT * FROM settings WHERE id = '11'")->fetch_object()->value;
 $amt = $reward/100*$referral_comission;
 $resultRef =$expressCrypto->sendReferralCommission($ref, $currency, $amt);
-$totalpaid = $mysqli->query("SELECT * FROM settings WHERE id = '45'")->fetch_object()->value;
-$totalpaid = $totalpaid+$amt;
-$mysqli->query("UPDATE settings SET value = '$totalpaid' WHERE id = '45'");
 }
 unset($_COOKIE['r']);
 }
@@ -188,18 +176,12 @@ $mysqli->query("UPDATE ip_list SET last_claim = '$time' WHERE ip_address = '$ip'
 $mysqli->query("DELETE FROM failure WHERE address = '$address' AND ip_address = '$ip'");
 $strtime = time();
 $mysqli->query("INSERT INTO drawrecord (id, address, dtime, satoshi) VALUES ('', '$address', '$strtime', '$reward')");
-$totalpaid = $mysqli->query("SELECT * FROM settings WHERE id = '45'")->fetch_object()->value;
-$totalpaid = $totalpaid+$reward;
-$mysqli->query("UPDATE settings SET value = '$totalpaid' WHERE id = '45'");
 if (isset($_COOKIE['r'])) {
 $ref = $mysqli->real_escape_string($_COOKIE['r']);
 if ($ref == $address) {
 $referral_comission = $mysqli->query("SELECT * FROM settings WHERE id = '11'")->fetch_object()->value;
 $amt = $reward/100*$referral_comission;
 $resultRef =$faucetpay->sendReferralEarnings($ref, $amt, $ip);
-$totalpaid = $mysqli->query("SELECT * FROM settings WHERE id = '45'")->fetch_object()->value;
-$totalpaid = $totalpaid+$amt;
-$mysqli->query("UPDATE settings SET value = '$totalpaid' WHERE id = '45'");
 }
 unset($_COOKIE['r']);
 }
@@ -244,18 +226,12 @@ $mysqli->query("UPDATE ip_list SET last_claim = '$time' WHERE ip_address = '$ip'
 $mysqli->query("DELETE FROM failure WHERE address = '$address' AND ip_address = '$ip'");
 $strtime = time();
 $mysqli->query("INSERT INTO drawrecord (id, address, dtime, satoshi) VALUES ('', '$address', '$strtime', '$reward')");
-$totalpaid = $mysqli->query("SELECT * FROM settings WHERE id = '45'")->fetch_object()->value;
-$totalpaid = $totalpaid+$reward;
-$mysqli->query("UPDATE settings SET value = '$totalpaid' WHERE id = '45'");
 if (isset($_COOKIE['r'])) {
 $ref = $mysqli->real_escape_string($_COOKIE['r']);
 if ($ref == $address) {
 $referral_comission = $mysqli->query("SELECT * FROM settings WHERE id = '11'")->fetch_object()->value;
 $amt = $reward/100*$referral_comission;
 $result = $faucetmw->sendReferralEarnings($dr, $h, $ip);
-$totalpaid = $mysqli->query("SELECT * FROM settings WHERE id = '45'")->fetch_object()->value;
-$totalpaid = $totalpaid+$amt;
-$mysqli->query("UPDATE settings SET value = '$totalpaid' WHERE id = '45'");
 }
 unset($_COOKIE['r']);
 }
