@@ -120,6 +120,8 @@ $metakeywords = $mysqli->query("SELECT * FROM settings WHERE id = '36'")->fetch_
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet" href="asset/css/stylemain.css" />
 <title><?php echo $titalname. ' - ' .$sitedesrip?></title>
+<link rel = "icon" href = 
+"asset/img/icone.png" type = "image/x-icon">
 </head>
 <body>
 <?php
@@ -1038,9 +1040,8 @@ while($myrowfaul = mysqli_fetch_array($checkfaul)){
 $id = $myrowfaul["id"];
 mysqli_query($mysqli, "DELETE FROM drawrecord WHERE id=$id");
 }}
-$totalpaid = $mysqli->query("SELECT * FROM settings WHERE id = '45'")->fetch_object()->value;
 ?>
-<td></td><td></td><td>Total Paid&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $totalpaid; ?></td>
+<tr><td>&nbsp;</td></tr>
 </table>
 </div></div></div></div>
 </td>
