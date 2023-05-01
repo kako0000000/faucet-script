@@ -6,14 +6,11 @@ Go to your webhost and create a new database called "faucet".
 upload public folder's all files and folders to your host's public_hrml folder.
 
 Open labs/Database.php files and edit the deatails of files with your database credits (database name,database username,database password).
-install.php which will delete the file after it is installed.
-
+Open install.php page. When install complete delete install.php file.
 
 Admin:->
 
-Open faucetmaster.php and find adminadmin. Change adminamin to own password and save the file.
-password must be secretwords to safe from hackers.
-To make more secure your admin page from hackers access, change file name faucetmaster.php with your secret word such as faucetadmin,adminpage (only for example) etc.
+Open admin.php and type username: admin and password: adminadmin. Change password 'adminamin' to own password and save the file.
 
 Features:->
 
@@ -30,7 +27,7 @@ Features:->
 
 Demo:->
 
-A demo is avaible: http://btcearn.ueuo.com
+A demo is avaible: https://btcearns.xyz
 
 Help:->
 
