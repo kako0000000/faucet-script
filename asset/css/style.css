@@ -1,0 +1,50 @@
+body {
+	background-color: #F5F9F8;
+}
+.ads {
+	text-align: center;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+.antibotlinks {
+	display: inline;
+}
+.antibotlinks-r {
+	float: right;
+}
+#faq, #info1, #info2 {
+	padding: 10px;
+	margin: 5px auto;
+	max-width: 60%;
+	border: 2px dotted gray;
+	border-radius: 5px 5px 5px 5px;
+}
+.ref {
+	margin-top: 10px;
+}
+.ref-icon {
+	border-right: 5px solid gray;
+}
+.ref-content {
+	margin-top: 10px;
+}
+.navbar {
+	height: 90px;
+}
+.brand-name {
+	font-family: 'Josefin Slab';
+	font-size: 3em;
+	text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+	font-weight: 700;
+	line-height: normal;
+}
+.brand-name::before{
+	font-family: "Font Awesome 5 Free"; font-weight: 600; content: "\f0da";
+}
+.brand-name::after{
+	font-family: "Font Awesome 5 Free"; font-weight: 600; content: "\f0d9";
+}
+
+footer {
+	font-size: 1.2em;
+}

@@ -1,0 +1,185 @@
+img[alt="www.000webhost.com"]{display:none;}
+body{
+margin:0;padding:0;
+background:#D3C28E;
+font-family:'Open Sans',sans-serif;
+}
+.header {
+width: 100%;
+overflow: auto;
+background:#a88e42;
+border-bottom:1px solid #7d6a31;
+}
+#nav {
+width: 100%;
+float: left;
+padding: 0;
+color:#fff;
+text-shadow: 1px 1px black;
+list-style: none;
+background-color: #a88e42;
+}
+#nav li {
+float: left; }
+#nav li a {
+font-family:Georgia, serif;
+font-size:18px;
+display: block;
+padding: 8px 15px;
+text-decoration: none;
+color: #fff;
+}
+#nav li a:hover {
+color: #000;
+text-shadow: 1px 1px #fff;
+}
+#nav li a:hover, #nav .dropdown:hover #nav .dropbtn {
+cursor: pointer;
+}
+#nav .dropdown-content {
+display: none;
+position: absolute;
+background-color: #a88e42;
+min-width: 200px;
+box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.7);
+z-index: 1;
+}
+#nav .dropdown-content a {
+font-family:Georgia, serif;
+font-size:18px;
+color: #fff;
+padding: 12px 16px;
+text-decoration: none;
+display: block;
+text-align: left;
+}
+#nav .dropdown-content a:hover {
+color: #000;
+text-shadow: 1px 1px #fff;
+}
+#nav .dropdown:hover .dropdown-content {
+display: block;
+}
+.abody {
+margin:0 auto;
+}
+#login{
+border:1px solid #000;
+background-color: #e0d5b1;
+width:400px;
+margin:0 auto;
+margin-top:10%;
+margin-bottom:18%;
+box-shadow: 1px 1px 4px 2px #999;
+}
+#triangle {
+font-family: arial, sans-serif;
+font-weight: bold;
+text-shadow: 1px 1px #000;
+background-color:#a88e42;
+border-bottom:1px solid #635427;
+padding:4% 4%;
+font-size:150%;
+color:#fff;
+}
+#triangle h1{
+color: #fff;
+font-family:Georgia, serif;
+font-size: 16px;
+font-weight: bold;
+margin-top: 0px;
+margin-bottom: 1px;
+letter-spacing: 1px;
+}
+form{
+padding:6% 4%;
+}
+#login input[type="email"],#login input[type="password"],#login input[type="text"]{
+width:92%;
+background:#fff;
+margin-bottom:4%;
+border:1px solid #999;
+padding:4%;
+font-family:'Open Sans',sans-serif;
+font-size:95%;
+color:#555;
+}
+#login input[type="submit"]{
+width:100%;
+background:#3399cc;
+border:0;
+padding:4%;
+font-family:Verdana, sans-serif;
+text-shadow: 1px 1px #000;
+font-size:100%;
+color:#fff;
+cursor:pointer;
+}
+#login input[type="submit"]:hover{
+background:#2288bb;
+}
+footer {
+overflow: auto;
+clear: left;
+background-color:#BA9F4E;
+padding:3%;
+border-top:1px solid #7d6a31;
+font-family:Georgia, serif;
+font-size:16px;
+}
+.fleft {
+float: left;
+width: 50%;
+color: white;
+letter-spacing: 2px;
+text-shadow: 1px 1px black;
+font-size:80%;
+}
+.fright {
+letter-spacing: 1px;
+text-align:right;
+right:0;
+float: right;
+width: 50%;
+color: #fff;
+font-family:'Open Sans',sans-serif;
+font-size:80%;
+}
+.fright a:link, .fright a:visited {
+color: white;
+text-align: left;
+text-shadow: 1px 1px black;
+text-decoration: none;
+display: inline-block;
+letter-spacing: 2px;
+}
+.fright a:hover,.fright a:active {
+color: #000;
+text-shadow: 1px 1px #fff;
+}
+.forbutton {
+text-align:right;
+}
+.forbutton a:link, .forbutton a:visited {
+color: #fff;
+background:#a88e42;
+padding:10px;
+font-size:80%;
+margin:0 15px 15px 0;
+text-align: left;
+text-decoration: none;
+display: inline-block;
+letter-spacing: 1px;
+text-shadow: 1px 1px #000;
+}
+.forbutton a:hover,.forbutton a:active {
+color: #fff;
+background:#BFAA62;
+}
+.error-message {
+background:#c60063;
+text-align:center;
+font-size:90%;
+padding:4%;
+color:#fff;
+}
