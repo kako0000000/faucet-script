@@ -40,7 +40,21 @@
 <?php if ($colorid == "5") {?>
 <input type="hidden" name="bcid" value="<?php echo $colorid; ?>"><code><b><?php echo $framename; ?></b></code><br><input type="text" name="colorr" value="<?php echo $pcolor; ?>" id="myText">&nbsp;<input type="color" value="<?php echo $pcolor; ?>" id="colorWell" />&nbsp;<input type="submit" value="Save" name="updatecolorp" class="myButton">&nbsp;
 <?php } ?>
-</td></tr><tr>
+</td></tr>
+
+<tr>
+<td class="bc" align="center">
+<table cellspacing="0" cellpadding="0" border="1" width="250">
+<tr><td align="center" style="background-color:<?php echo $waitc ?>;" <?php if ($colorid == "6") {?>id="mycolor"<?php } ?>>
+<br>&nbsp;&nbsp;&nbsp;<button>You have to wait</button>&nbsp;&nbsp;&nbsp;
+<br><br></td></tr></table></td>
+<td width="350" align="center">
+<?php if ($colorid == "6") {?>
+<input type="hidden" name="bcid" value="<?php echo $colorid; ?>"><code><b><?php echo $framename; ?></b></code><br><input type="text" name="colorr" value="<?php echo $pcolor; ?>" id="myText">&nbsp;<input type="color" value="<?php echo $pcolor; ?>" id="colorWell" />&nbsp;<input type="submit" value="Save" name="updatecolorp" class="myButton">&nbsp;
+<?php } ?>
+</td></tr>
+
+<tr>
 <td class="bc" align="center">
 <table cellspacing="0" cellpadding="5" border="1" width="250">
 <tr><td align="center" style="background-color:<?php echo $rlboxc ?>;" <?php if ($colorid == "10") {?>id="mycolor"<?php } ?>>
