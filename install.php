@@ -3,7 +3,7 @@ include("libs/database.php");
 $querycheck='SELECT 1 FROM `address_list`';
 $query_result=$mysqli->query($querycheck);
 if ($query_result !== FALSE){
-echo "<center><br><br><h1>Your installed complete. <br><br><br> Please&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DETETE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'<font color='red'>install.php</font>'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; File<br><br><br>Go to <a href='admin.php'>ADMIN PAGE</a> and Type <br><br><font color='red'>username:  admin</font><br><font color='red'>password: adminadmin</font><br><br> <font color='blue'>Change password</font> <font color='red'>adminamin</font> to <font color='blue'>own password</font> and Save. </h1></center>";
+echo "<center><br><br><h1>Your installed complete. <br><br><br> Please&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DETETE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'<font color='red'>install.php</font>'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; File<br><br><br>Go to <a href='index.php'>Home PAGE</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='admin.php'>ADMIN PAGE</a> and Type <br><br><font color='red'>username:  admin</font><br><font color='red'>password: adminadmin</font><br><br> <font color='blue'>Change password</font> <font color='red'>adminamin</font> to <font color='blue'>own password</font> and Save. </h1></center>";
 }else{
 $mysqli->query("DROP TABLE `address_list` ,`banners` , `drawrecord` , `failure` ,`fauclist` ,`ip_list` ,`ip_list_address` ,`link` ,`ptclist` ,`reptads` ,`settings` ,`short_link` ,`backcolor` ,`adssetting` ,`pendwebs` ,`reward`;");
 $mysqli->query("
@@ -42,10 +42,9 @@ CREATE TABLE IF NOT EXISTS `banners` (
 `secucode` varchar(50) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 ");
-$line1 = "<a href='index.php?op=advertising' target='_blank'><img src='asset/img/youradshere.jpg' /></a>";
 $mysqli->query("
 INSERT INTO `banners` (`fnum`, `fbanercode`, `websitename`, `bannersize`, `secucode`) VALUES
-(1, '".mysql_real_escape_string($line1)."', 'btcearns.xyz', '468x60', '718bacbd063f3f197db0bee7b4e4838b');
+(1, '<a href=\"index.php?op=advertising\" target=\"_blank\"><img src=\"asset/img/youradshere.jpg\" border=\"0\"></a>', 'btcearns.xyz', '468x60', '718bacbd063f3f197db0bee7b4e4838b');
 ");
 $mysqli->query("
 CREATE TABLE IF NOT EXISTS `drawrecord` (

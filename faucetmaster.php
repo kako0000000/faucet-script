@@ -845,10 +845,10 @@ if ($captchasystem == "Recaptcha") {
 ?>
 </select>
 </td></tr>
-<tr><td align="left" class="chmer" colspan="7">Google Re-captcha</td></tr>
+<tr><td align="left" class="chmer" colspan="7">Google Re-captcha <a href="https://www.google.com/recaptcha/about/" target="_blank">Open Websit</a></td></tr>
 <tr><td>Recaptcha Site/Public Key </td><td><input type="text" name="recaptcha_public_key" class="form-control" size="50" value="<?php echo $recaptcha_public_key;?>"></td></tr>
 <tr><td>Recaptcha Secret Key </td><td><input type="text" name="recaptcha_secret_key" class="form-control" size="50" value="<?php echo $recaptcha_secret_key;?>"></td></tr>
-<tr><td align="left" class="chmer" colspan="7">Solvemedia Captcha <a href="solvemedia.com">Open Websit</a></td></tr>
+<tr><td align="left" class="chmer" colspan="7">Solvemedia Captcha <a href="solvemedia.com" target="_blank">Open Websit</a></td></tr>
 <tr><td>SolveMedia Challenge Key </td><td><input type="text" name="solveMedia_challenge_key" class="form-control" size="50" value="<?php echo $solveMedia_challenge_key;?>"></td></tr>
 <tr><td>SolveMedia Private Key </td><td><input type="text" name="solveMedia_private_key" class="form-control" size="50" value="<?php echo $solveMedia_private_key;?>"></td></tr>
 <tr><td>SolveMedia Hash Key </td><td><input type="text" name="solveMedia_hash_key" class="form-control" size="50" value="<?php echo $solveMedia_hash_key;?>"></td></tr>

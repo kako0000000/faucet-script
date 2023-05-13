@@ -10,21 +10,21 @@ if (time() >= $removeip){
 $mysqli->query("TRUNCATE TABLE ip_list_address");
 $mysqli->query("TRUNCATE TABLE ip_list");
 $timerr = time()+86400;
-$mysqli->query("UPDATE settings SET value='$timerr' WHERE id=12");}
+$mysqli->query("UPDATE settings SET value='$timerr' WHERE id=12");
+}
 if (isset($_COOKIE['ipaddress'])) {
-$ip = $mysqli->real_escape_string($_COOKIE['ipaddress']);}else{
+$ip = $mysqli->real_escape_string($_COOKIE['ipaddress']);
+}else{
 include 'libs/ipaddress.php';
 $ip = getIpAddress();
-setcookie('ipaddress', $ip);}
+setcookie('ipaddress', $ip);
+}
 if (isset($_COOKIE['address'])) {
 $chaddress = $_COOKIE['address'];
 $checkipaddress = $mysqli->query("SELECT * FROM ip_list_address WHERE claim_address = '$chaddress'");
 if ($checkipaddress->num_rows == 1) {
-$total_short_link = $mysqli->query("SELECT * FROM ip_list_address WHERE claim_address = '$chaddress'");
-$data = $total_short_link->fetch_assoc();
-$data = $checkipaddress->fetch_assoc();
-$claimwtime = $mysqli->query("SELECT * FROM settings WHERE id = '10'")->fetch_object()->value;
-$time = $data['last_claim'] - time();
+$checklc = $checkipaddress->fetch_assoc();
+$time = $checklc['last_claim'] - time();
 if ($time > 0) {
 $waiteclaim = "waiteclaim";
 }else{
@@ -36,28 +36,23 @@ if ($count_short_link == $total_short_link) {
 $waiteclaim = "wait hours";
 }else{
 $waiteclaim = "claim";
-}
-}else{
+}}else{
 $waiteclaim = "claim";
-}
-}
+}}
 $nogocheckip = "yesgocheckip";
 }else{
 $nogocheckip = "nogocheckip";
-}
-}else{
+}}else{
 $nogocheckip = "nogocheckip";
 }
 If ($nogocheckip = "nogocheckip"){
 $checkip = $mysqli->query("SELECT * FROM ip_list WHERE ip_address = '$ip'");
 if ($checkip->num_rows == 1) {
-$total_short_link = $mysqli->query("SELECT * FROM ip_list WHERE ip_address = '$ip'");
-$data = $total_short_link->fetch_assoc();
-$data = $checkip->fetch_assoc();
-$claimwtime = $mysqli->query("SELECT * FROM settings WHERE id = '10'")->fetch_object()->value;
-$time = $data['last_claim'] - time();
+$checklc = $checkip->fetch_assoc();
+$time = $checklc['last_claim'] - time();
 if ($time > 0) {
-$waiteclaim = "waiteclaim";}else{
+$waiteclaim = "waiteclaim";
+}else{
 $short_link = $mysqli->query("SELECT * FROM settings WHERE id = '16'")->fetch_object()->value;
 if ($short_link == 'on') {
 $count_short_link = $mysqli->query("SELECT * FROM ip_list WHERE ip_address = '$ip'")->fetch_object()->count_value;
@@ -66,68 +61,62 @@ if ($count_short_link == $total_short_link) {
 $waiteclaim = "wait hours";
 }else{
 $waiteclaim = "claim";
-}
-}else{
+}}else{
 $waiteclaim = "claim";
-}
-}
-}
-else{
+}}}else{
+$short_link = $mysqli->query("SELECT * FROM settings WHERE id = '16'")->fetch_object()->value;
+if ($short_link == 'on') {
 $clickc = $mysqli->query("SELECT * FROM short_link");
 $qty= 0;
 while($num = $clickc->fetch_assoc()) {
 $qty += $num['click'];}
+}else{
+$qty= "no";
+}
 $time = time();
 $mysqli->query("INSERT INTO ip_list (ip_address, first_time, last_claim, short_link_id, per_value_repirt, count_value, total_value) VALUES ('$ip', '$time','0','0','1','0','$qty')");
 $waiteclaim = "claim";
-}
-}
+}}
 if (isset($_POST['claim'])) {
-include("proxycheck.php");
+$claimcurname = $_POST['claimcurname'];
+$address = $_POST['address'];
 $token = $_POST['token'];
-$payoutwebsite = $mysqli->query("SELECT * FROM settings WHERE id = '38'")->fetch_object()->value;
-if ($payoutwebsite == "Expresscrypto.io") {
-$address = $_POST['address'];}else{
-$address = mysqli_real_escape_string($mysqli,preg_replace("/[^ \w]+/", "",trim($_POST['address'])));}
 $faucetsiteonoff = $mysqli->query("SELECT * FROM settings WHERE id = '6'")->fetch_object()->value;
 $proxycheck = $mysqli->query("SELECT * FROM settings WHERE id = '46'")->fetch_object()->value;
 if ($proxycheck == "off") {
 $proxycheck = "noproxy";
 }else{
+include("proxycheck.php");
 if (preg_match("/\b$mword\b/i", $content, $match))  {
-$proxycheck = "noproxy";}
-else{
+$proxycheck = "noproxy";
+}else{
 $proxycheck = "yesproxy";}
 }
 if ($proxycheck == "yesproxy") {
 $mysqli->query("INSERT INTO failure (address, ip_address) VALUES ('$address', '$ip')");
 $error = 'Request blocked as you appear to be browsing from a VPN or Proxy Server.';
-}
-elseif (strlen($address) < 10 or strlen($address) > 60) {
-$error = 'Invalid Address';
-unset($_COOKIE['scode']);}
-elseif ($token !== $_COOKIE['scode']) {
+}elseif ($token !== $_SESSION["sectoken"]) {
 $error = 'Invalid Session Key';
-unset($_COOKIE['scode']);}
-elseif ($faucetsiteonoff == "off") {
+unset($_SESSION['sectoken']);
+}elseif ($faucetsiteonoff == "off") {
 $error = 'The side is temporarily closed. <br> Please wait or refresh the page';
-unset($_COOKIE['scode']);}
-else{
+unset($_SESSION['sectoken']);
+}else{
 $checkfa = $mysqli->query("SELECT * FROM failure WHERE address = '$address'")->num_rows;
 $checkfip = $mysqli->query("SELECT * FROM failure WHERE ip_address = '$ip'")->num_rows;
 if ($checkfa >= 4) {
-$error = 'You Are Banned';}
-elseif ($checkfip >= 4) {
-$error = 'You Are Banned';}
-else{
+$error = 'You Are Banned';
+}elseif ($checkfip >= 4) {
+$error = 'You Are Banned';
+}else{
 $antibot = $mysqli->query("SELECT * FROM settings WHERE id = '13'")->fetch_object()->value;
 if ($antibot == "off") {
-include_once("captchareward.php");}
-else{
+include_once("captchareward.php");
+}else{
 $anticode = $_POST['anticode'];
 if ($anticode == $_COOKIE['anticodeaddress']) {
-include_once("captchareward.php");}
-else{
+include_once("captchareward.php");
+}else{
 $error = 'Invalid AntiBot verification!';
 }}}}}
 $antibot = $mysqli->query("SELECT * FROM settings WHERE id = '13'")->fetch_object()->value;
@@ -799,10 +788,6 @@ if ($rewardoff == "off" ) {
 $sitename = $myrowoffr["sitename"];
 $curname = $myrowoffr["curname"];
 $satoshi = $myrowoffr["satoshi"];
-unset($_SESSION['curname']);
-unset($_SESSION['satoshi']);
-$_SESSION["curname"] = $curname;
-$_SESSION["satoshi"] = $satoshi;
 }else{
 ?>
 <center>
@@ -824,6 +809,11 @@ while($myrowrwb = mysqli_fetch_array($resultrwb)){
 }
 if(!empty($_GET["currency"])) {
 $curcy = $_GET["currency"];
+if ($rewardoff == "off" ) {
+$sitename = $myrowoffr["sitename"];
+$curname = $myrowoffr["curname"];
+$satoshi = $myrowoffr["satoshi"];
+}else{
 $sqlrwbc = "SELECT * FROM reward WHERE curname='$curcy' and hideshow='show'";
 $resultrwbc = mysqli_query($mysqli, $sqlrwbc);
 $findcurancy = mysqli_num_rows($resultrwbc);
@@ -834,31 +824,18 @@ $myrowoffr = mysqli_fetch_array($resultoffr);
 $sitename = $myrowoffr["sitename"];
 $curname = $myrowoffr["curname"];
 $satoshi = $myrowoffr["satoshi"];
-unset($_SESSION['curname']);
-unset($_SESSION['satoshi']);
-$_SESSION["curname"] = $curname;
-$_SESSION["satoshi"] = $satoshi;
 }else{
 $myrowrwbc = mysqli_fetch_array($resultrwbc);
 $sitename = $myrowrwbc["sitename"];
 $curname = $myrowrwbc["curname"];
 $satoshi = $myrowrwbc["satoshi"];
-unset($_SESSION['curname']);
-unset($_SESSION['satoshi']);
-$_SESSION["curname"] = $curname;
-$_SESSION["satoshi"] = $satoshi;
-}
-}else{
+}}}else{
 $sqloffr = "SELECT * FROM reward WHERE id='1'";
 $resultoffr = mysqli_query($mysqli, $sqloffr);
 $myrowoffr = mysqli_fetch_array($resultoffr);
 $sitename = $myrowoffr["sitename"];
 $curname = $myrowoffr["curname"];
 $satoshi = $myrowoffr["satoshi"];
-unset($_SESSION['curname']);
-unset($_SESSION['satoshi']);
-$_SESSION["curname"] = $curname;
-$_SESSION["satoshi"] = $satoshi;
 }
 ?>
 <h1><?php echo $sitename ?></h1>
@@ -906,10 +883,8 @@ if($e == "1"){
 $event = '<p class="alert-danger">You have cookies disabled. Please try again</p>';
 }
 if($e == "2"){
-if (!isset($_SESSION['satoshi'])) {
-}else{
-$claimsatoshi = $_SESSION['satoshi'];
-}
+unset($_SESSION['curname']);
+$claimsatoshi = $_POST['showreword'];
 $address = $_COOKIE['address'];
 $payoutwebsite = $mysqli->query("SELECT * FROM settings WHERE id = '38'")->fetch_object()->value;
 if ($payoutwebsite == "Faucethub.io") {
@@ -936,6 +911,9 @@ $event = "<p class='alert-danger'>You have reached the daily claim limit of this
 }
 if($e == "5"){
 $event = '<p class="alert-danger">Connection error ( Please Try Again ).</p>';
+}
+if($e == "6"){
+$event = '<p class="alert-danger">Currency error : More then one currency open ( Only Open One Page Please Try Again ).</p>';
 }
 ?>
 <tr><td>
@@ -1045,25 +1023,26 @@ echo "<tr><td class='errors'>" . $proxyerror . "</td></tr>";
 if (isset($error)) {
 echo "<tr><td class='errors'>" . $error . "</td></tr>";
 }
-$id = md5(uniqid());
-$strtime = time();
-$resultsc = md5($strtime);
-$finalc = $id . $resultsc;
-$resultscf = md5($finalc);
-$secucode = $resultscf;
 if (isset($_POST['gologin'])) {
+$stacurname = $_POST['stacurname'];
 $scode = $_POST['sec'];
 $address = $_POST['address'];
-if ($scode == $_COOKIE['scode']) {
-setcookie('scode', $secucode);
+unset($_SESSION['curname']);
+$_SESSION["curname"] = $stacurname;
+if ($scode == $_SESSION["sectoken"]) {
 setcookie('address', $address, time()+86400);
 $checkaddressip = $mysqli->query("SELECT * FROM ip_list_address WHERE claim_address = '$address'");
 if ($checkaddressip->num_rows == 1) {
 }else{
+$short_link = $mysqli->query("SELECT * FROM settings WHERE id = '16'")->fetch_object()->value;
+if ($short_link == 'on') {
 $clickc = $mysqli->query("SELECT * FROM short_link");
 $qty= 0;
 while($num = $clickc->fetch_assoc()) {
 $qty += $num['click'];}
+}else{
+$qty= "no";
+}
 $time = time();
 $mysqli->query("INSERT INTO ip_list_address (claim_address, ip_address, first_time, last_claim, short_link_id, per_value_repirt, count_value, total_value) VALUES ('$address', '$ip', '$time','0','0','1','0','$qty')");
 }
@@ -1096,7 +1075,8 @@ $hcaptcha_site_key = $mysqli->query("SELECT * FROM settings WHERE id = '23'")->f
 <?php echo $myrowban468x602["fbanercode"]; ?><br>
 <?php echo $myrowban468x603["fbanercode"]; ?><br>
 <?php echo $myrowban468x604["fbanercode"]; ?><br>
-<input type="hidden" name="token" value="<?php echo $secucode; ?>">
+<input type="hidden" name="claimcurname" value="<?php echo $stacurname; ?>">
+<input type="hidden" name="token" value="<?php echo $scode; ?>">
 <div id="wait" style="display: block"><a id='countdown-link'>Please wait</a></div>
 <?php
 $blockpage = $mysqli->query("SELECT * FROM settings WHERE id = '47'")->fetch_object()->value;
@@ -1272,10 +1252,35 @@ modal.style.display = "none";
 <?php
 }else{
 header('Location: index.php');
-}}elseif (isset($_POST['loginpage'])) {
+}
+}elseif (isset($_POST['loginpage'])) {
 $scode = $_POST['sec'];
-if ($scode == $_COOKIE['scode']) {
-setcookie('scode', $secucode);
+unset($_SESSION['sectoken']);
+$_SESSION["sectoken"] = $scode;
+if(!empty($_GET["currency"])) {
+$curcy = $_GET["currency"];
+if ($rewardoff == "off" ) {
+$curname = $myrowoffr["curname"];
+}else{
+$sqlrwbc = "SELECT * FROM reward WHERE curname='$curcy' and hideshow='show'";
+$resultrwbc = mysqli_query($mysqli, $sqlrwbc);
+$findcurancy = mysqli_num_rows($resultrwbc);
+if ($findcurancy == '0'){
+$sqloffr = "SELECT * FROM reward WHERE id='1'";
+$resultoffr = mysqli_query($mysqli, $sqloffr);
+$myrowoffr = mysqli_fetch_array($resultoffr);
+$curname = $myrowoffr["curname"];
+}else{
+$myrowrwbc = mysqli_fetch_array($resultrwbc);
+$curname = $myrowrwbc["curname"];
+}
+}
+}else{
+$sqloffr = "SELECT * FROM reward WHERE id='1'";
+$resultoffr = mysqli_query($mysqli, $sqloffr);
+$myrowoffr = mysqli_fetch_array($resultoffr);
+$curname = $myrowoffr["curname"];
+}
 ?>
 <form action="" method="post">
 <tr><td align="center">
@@ -1305,7 +1310,8 @@ if ($payoutwebsite == "Faucetpay.io") {
 <tr><td align="center"><?php echo $myrowban468x602["fbanercode"]; ?></td></tr>
 <tr><td align="center"><?php echo $myrowban468x603["fbanercode"]; ?></td></tr>
 <tr><td align="center">
-<input type="hidden" name="sec" value="<?php echo $secucode; ?>">
+<input type="hidden" name="stacurname" value="<?php echo $curname; ?>">
+<input type="hidden" name="sec" value="<?php echo $scode; ?>">
 <div id="wait" style="display: block"><a id='countdown-link'>Please wait</a></div>
 <div class="cobutton">
 <button  type="submit" id="nextbutton" name="gologin" style="display: none" >Go Login</button>
@@ -1314,9 +1320,12 @@ if ($payoutwebsite == "Faucetpay.io") {
 </form>
 <?php
 }else{
-header('Location: index.php');
-}}else{
-setcookie('scode', $secucode) or die('unable to create cookie');
+$id = md5(uniqid());
+$strtime = time();
+$resultsc = md5($strtime);
+$finalc = $id . $resultsc;
+$resultscf = md5($finalc);
+$secucode = $resultscf;
 ?>
 <tr><td align="center"><?php echo $myrowban300x250["fbanercode"]; ?></td></tr>
 <tr><td align="center"><?php echo $myrowban468x601["fbanercode"]; ?></td></tr>
@@ -1669,6 +1678,6 @@ eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 </script>
 </body></html>
 <?php
-}else{echo "Install database <h3>(<a href='install.php'>click Here</a>)</h4>.";}
+}else{echo "<center><br><br><h1>Your installed Incomplete. <br><br><br> <h1>Install Database</h1><br><br><br><h1> <a href='install.php'>(click Here)</a> </h1></center>";}
 ob_end_flush(); // Flush the output from the buffer
 ?>

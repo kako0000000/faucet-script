@@ -1,9 +1,8 @@
 <?php
-session_start();
 $short_link = $mysqli->query("SELECT * FROM settings WHERE id = '16'")->fetch_object()->value;
 if ($short_link == 'on') {
 // Short Link On
-$chaddress = $_COOKIE['address'];
+$address = $_COOKIE['address'];
 $short_link_id = $mysqli->query("SELECT * FROM ip_list_address WHERE claim_address = '$address'")->fetch_object()->short_link_id;
 $per_value_repirt = $mysqli->query("SELECT * FROM ip_list_address WHERE claim_address = '$address'")->fetch_object()->per_value_repirt;
 $short_count_value = $mysqli->query("SELECT * FROM ip_list_address WHERE claim_address = '$address'")->fetch_object()->count_value;
@@ -31,16 +30,20 @@ $str .= $chars[ rand( 0, $size - 1 ) ];
 }
 return $str;
 }
-if (!isset($_SESSION['curname'])) {
-$currency = $mysqli->query("SELECT * FROM settings WHERE id = '14'")->fetch_object()->value;
-$reward = $mysqli->query("SELECT * FROM settings WHERE id = '9'")->fetch_object()->value;
+$currency = $claimcurname;
+$sqloffr = "SELECT * FROM reward WHERE id='1'";
+$resultoffr = mysqli_query($mysqli, $sqloffr);
+$myrowoffr = mysqli_fetch_array($resultoffr);
+$rewardoff = $myrowoffr["hideshow"];
+if ($rewardoff == "off" ) {
+$curname = $myrowoffr["curname"];
+$reward = $myrowoffr["satoshi"];
 }else{
-$currency = $_SESSION['curname'];
-$reward = $_SESSION['satoshi'];
+$satoshi1 = $mysqli->query("SELECT * FROM reward WHERE curname = '$currency' and id > '1'")->fetch_object()->satoshi;
+$reward = $satoshi1;
 }
 $sec_key = random_key(20);
 $time = time();
-$address = $_COOKIE['address'];
 $mysqli->query("DELETE FROM link WHERE address = '$address'");
 $mysqli->query("INSERT INTO link (address, sec_key, time_created, currency, reward) VALUES ('$address', '$sec_key', '$time', '$currency', '$reward')");
 $siteurl = $mysqli->query("SELECT * FROM settings WHERE id = '3'")->fetch_object()->value;
@@ -73,21 +76,25 @@ $l = $getlink . $result;
 header('Location: ' .$l);
 die();
 }else{
+$currency = $claimcurname;
+if ($currency == $_SESSION['curname']) {
+$sqloffr = "SELECT * FROM reward WHERE id='1'";
+$resultoffr = mysqli_query($mysqli, $sqloffr);
+$myrowoffr = mysqli_fetch_array($resultoffr);
+$rewardoff = $myrowoffr["hideshow"];
+if ($rewardoff == "off" ) {
+$reward = $myrowoffr["satoshi"];
+}else{
+$satoshi1 = $mysqli->query("SELECT * FROM reward WHERE curname = '$currency' and id > '1'")->fetch_object()->satoshi;
+$reward = $satoshi1;
+}	
 // Short Link Off
-unset($_COOKIE['scode']);
 $sec = md5($hacker_security);
 $payoutwebsite = $mysqli->query("SELECT * FROM settings WHERE id = '38'")->fetch_object()->value;
 $totalpaidow = $mysqli->query("SELECT * FROM settings WHERE id = '45'")->fetch_object()->value;
 if ($payoutwebsite == "Faucethub.io") {
 include 'libs/faucethub.php';
 $faucetHub_api_key = $mysqli->query("SELECT * FROM settings WHERE id = '15'")->fetch_object()->value;
-if (!isset($_SESSION['curname'])) {
-$currency = $mysqli->query("SELECT * FROM settings WHERE id = '14'")->fetch_object()->value;
-$reward = $mysqli->query("SELECT * FROM settings WHERE id = '9'")->fetch_object()->value;
-}else{
-$currency = $_SESSION['curname'];
-$reward = $_SESSION['satoshi'];
-}
 $faucetHub_api = str_replace($sec,"",$faucetHub_api_key);
 $faucethub = new FaucetHub($faucetHub_api, $currency);
 $result = $faucethub->send($address, $reward, $ip);
@@ -116,6 +123,7 @@ unset($_COOKIE['ipaddress']);
 ?>
 <form method="post" action="index.php" id="myform">
 <input type='hidden' name='c' value='2' />
+<input type='hidden' name='showreword' value='<?php echo $reward ;?>' />
 </form>
 <script>
 document.getElementById('myform').submit();
@@ -140,13 +148,6 @@ $expresscrypto_api_token = $mysqli->query("SELECT * FROM settings WHERE id = '40
 $expresscrypto_api_token = str_replace($sec,"",$expresscrypto_api_token);
 $expresscrypto_user_token = $mysqli->query("SELECT * FROM settings WHERE id = '41'")->fetch_object()->value;
 $expresscrypto_user_token = str_replace($sec,"",$expresscrypto_user_token);
-if (!isset($_SESSION['curname'])) {
-$currency = $mysqli->query("SELECT * FROM settings WHERE id = '14'")->fetch_object()->value;
-$reward = $mysqli->query("SELECT * FROM settings WHERE id = '9'")->fetch_object()->value;
-}else{
-$currency = $_SESSION['curname'];
-$reward = $_SESSION['satoshi'];
-}
 $expressCrypto = new ExpressCrypto($expresscrypto_api_key, $expresscrypto_user_token, $ip);
 $result = $expressCrypto->sendPayment($address, $currency, $reward);
 if($result['status'] == 200){
@@ -182,6 +183,7 @@ unset($_COOKIE['ipaddress']);
 ?>
 <form method="post" action="index.php" id="myform">
 <input type='hidden' name='c' value='2' />
+<input type='hidden' name='showreword' value='<?php echo $reward ;?>' />
 </form>
 <script>
 document.getElementById('myform').submit();
@@ -204,13 +206,6 @@ exit;
 include 'libs/faucetpay.library.php';
 $faucetpay_api_token = $mysqli->query("SELECT * FROM settings WHERE id = '39'")->fetch_object()->value;
 $faucetpay_api_token = str_replace($sec,"",$faucetpay_api_token);
-if (!isset($_SESSION['curname'])) {
-$currency = $mysqli->query("SELECT * FROM settings WHERE id = '14'")->fetch_object()->value;
-$reward = $mysqli->query("SELECT * FROM settings WHERE id = '9'")->fetch_object()->value;
-}else{
-$currency = $_SESSION['curname'];
-$reward = $_SESSION['satoshi'];
-}
 $faucetpay = new FaucetPay($faucetpay_api_token, $currency);
 $result = $faucetpay->send($address, $reward, $ip);
 if ($result["success"] === true){
@@ -241,6 +236,7 @@ unset($_COOKIE['ipaddress']);
 ?>
 <form method="post" action="index.php" id="myform">
 <input type='hidden' name='c' value='2' />
+<input type='hidden' name='showreword' value='<?php echo $reward ;?>' />
 </form>
 <script>
 document.getElementById('myform').submit();
@@ -263,13 +259,6 @@ exit;
 include 'libs/microwallet.library.php';
 $microwallet_api = $mysqli->query("SELECT * FROM settings WHERE id = '42'")->fetch_object()->value;
 $microwallet_api = str_replace($sec,"",$microwallet_api);
-if (!isset($_SESSION['curname'])) {
-$currency = $mysqli->query("SELECT * FROM settings WHERE id = '14'")->fetch_object()->value;
-$reward = $mysqli->query("SELECT * FROM settings WHERE id = '9'")->fetch_object()->value;
-}else{
-$currency = $_SESSION['curname'];
-$reward = $_SESSION['satoshi'];
-}
 $faucetmw = new FaucetHub($microwallet_api, $currency);
 $result = $faucetmw->send($address, $reward, $ip);
 if ($result["success"] === true){
@@ -305,6 +294,7 @@ unset($_COOKIE['ipaddress']);
 ?>
 <form method="post" action="index.php" id="myform">
 <input type='hidden' name='c' value='2' />
+<input type='hidden' name='showreword' value='<?php echo $reward ;?>' />
 </form>
 <script>
 document.getElementById('myform').submit();
@@ -322,5 +312,18 @@ document.getElementById('myform').submit();
 </script>
 <?php
 exit;
-}}}
+}}
+}else{
+unset($_COOKIE['ipaddress']);
+?>
+<form method="post" action="index.php" id="myform">
+<input type='hidden' name='c' value='6' />
+</form>
+<script>
+document.getElementById('myform').submit();
+</script>
+<?php
+exit;
+}
+}
 ?>

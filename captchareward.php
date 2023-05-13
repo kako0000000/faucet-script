@@ -16,12 +16,13 @@ if($responseData->success){
 include_once("reward.php");	     
 }else{
 $error = 'You are a robot';
+unset($_SESSION['sectoken']);
 }}elseif ($captchasystem == "Solvemedia"){
 require_once("libs/solvemedialib.php");
 $solvemedia_response = solvemedia_check_answer($privkey,$_SERVER["REMOTE_ADDR"],$_POST["adcopy_challenge"],$_POST["adcopy_response"],$hashkey);
 if (!$solvemedia_response->is_valid) {
 $error = ucwords($solvemedia_response->error);
-unset($_COOKIE['scode']);
+unset($_SESSION['sectoken']);
 }else{
 include_once("reward.php");
 }}elseif ($captchasystem == "Hcaptcha"){
@@ -39,9 +40,10 @@ if($responseData->success){
 include_once("reward.php");
 }else{
 $error = 'hCaptcha verification failed. Please try again.';
+unset($_SESSION['sectoken']);
 }}else{
 $error = 'Please click on the hCaptcha button.';
+unset($_SESSION['sectoken']);
 }}}else{
 include_once("reward.php");
-}
-?>
+}?>

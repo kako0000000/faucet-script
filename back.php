@@ -14,6 +14,8 @@ $min_time = time() - 600;
 $check = $mysqli->query("SELECT * FROM link WHERE sec_key = '$key' and time_created > '$min_time'");
 if ($check->num_rows == 1) {
 $link = $check->fetch_assoc();
+$currency = $link['currency'];
+if ($currency == $_SESSION['curname']) {
 $address = $link['address'];
 if ($address == $_COOKIE['address']) {
 $sec = md5($hacker_security);
@@ -25,6 +27,7 @@ $faucetHub_api_key = $mysqli->query("SELECT * FROM settings WHERE id = '15'")->f
 $faucetHub_api = str_replace($sec,"",$faucetHub_api_key);
 $currency = $link['currency'];
 $reward = $link['reward'];
+
 $faucethub = new FaucetHub($faucetHub_api, $currency);
 $result = $faucethub->send($address, $reward, $ip);
 if($result["success"] === true) {
@@ -53,6 +56,7 @@ unset($_COOKIE['ipaddress']);
 ?>
 <form method="post" action="index.php" id="myform">
 <input type='hidden' name='c' value='2' />
+<input type='hidden' name='showreword' value='<?php echo $reward ;?>' />
 </form>
 <script>
 document.getElementById('myform').submit();
@@ -115,6 +119,7 @@ unset($_COOKIE['ipaddress']);
 ?>
 <form method="post" action="index.php" id="myform">
 <input type='hidden' name='c' value='2' />
+<input type='hidden' name='showreword' value='<?php echo $reward ;?>' />
 </form>
 <script>
 document.getElementById('myform').submit();
@@ -170,6 +175,7 @@ unset($_COOKIE['ipaddress']);
 ?>
 <form method="post" action="index.php" id="myform">
 <input type='hidden' name='c' value='2' />
+<input type='hidden' name='showreword' value='<?php echo $reward ;?>' />
 </form>
 <script>
 document.getElementById('myform').submit();
@@ -230,6 +236,7 @@ unset($_COOKIE['ipaddress']);
 ?>
 <form method="post" action="index.php" id="myform">
 <input type='hidden' name='c' value='2' />
+<input type='hidden' name='showreword' value='<?php echo $reward ;?>' />
 </form>
 <script>
 document.getElementById('myform').submit();
@@ -247,8 +254,7 @@ document.getElementById('myform').submit();
 </script>
 <?php
 exit;
-}
-}}else{
+}}}else{
 unset($_COOKIE['ipaddress']);
 ?>
 <form method="post" action="index.php" id="myform">
@@ -258,6 +264,17 @@ unset($_COOKIE['ipaddress']);
 document.getElementById('myform').submit();
 </script>
 <?php
+}}else{
+unset($_COOKIE['ipaddress']);
+?>
+<form method="post" action="index.php" id="myform">
+<input type='hidden' name='c' value='6' />
+</form>
+<script>
+document.getElementById('myform').submit();
+</script>
+<?php
+exit;
 }}else{
 unset($_COOKIE['ipaddress']);
 ?>
